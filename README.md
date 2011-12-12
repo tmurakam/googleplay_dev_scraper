@@ -27,7 +27,7 @@ Android Market / Google Checkout Scraper
 
 Mechanize は以下のようにインストールしてください。
 
- $ gem install mechanize -v 1.0.0
+    $ gem install mechanize -v 1.0.0
 
 '11/12/12 現在、Mechanize の最新版は 2.0.1 ですが、このバージョン
 では正常に動作しないので、1.0.0 が必要です。
@@ -46,12 +46,12 @@ secrets.rb.sample を secrets.rb にコピーし、Android Market に
 売上レポートの取得 get-sales-report.rb を使います。
 例えば 2011年10月の売上を取得する場合は以下のようにします。
 
-  $ ./get-sales-report.rb 2011 10
+    $ ./get-sales-report.rb 2011 10
 
 オーダー一覧取得は get-orders.rb を使います。こちらは開始日時と
 終了日時を指定します。時刻は日本時間で指定。
 
-  $ ./get-orders.rb 2011-08-01T:00:00:00 2011-09-30T23:59:59
+    $ ./get-orders.rb 2011-08-01T:00:00:00 2011-09-30T23:59:59
 
 
 内部動作とか
@@ -75,4 +75,4 @@ Public domain 扱いとします。
 
 ---
 '11/12/12
-Takuya Murakami <tmurakam at tmurakam.org>
+Takuya Murakami, E-mail: tmurakam at tmurakam.org
