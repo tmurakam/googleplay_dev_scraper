@@ -68,13 +68,13 @@ class AndroidCheckoutScraper
   # Get order list
   # startDate: start date (yyyy-mm-ddThh:mm:ss)
   # end: end date (yyyy-mm-ddThh:mm:ss)
-  def getOrderList(startDate, endDate)
+  def getOrderList(startDate, endDate, state = "CHARGED")
     @agent.get("https://checkout.google.com/sell/orders")
 
     @agent.page.form_with(:name => "dateInput") do |form|
       form["start-date"] = startDate
       form["end-date"] = endDate
-      form["financial-state"] = "CHARGED"
+      form["financial-state"] = state
       form["column-style"] = "EXPANDED"
       #form["date-time-zone"] = "Asia/Tokyo"
       #form["_type"] = "order-list-request"
