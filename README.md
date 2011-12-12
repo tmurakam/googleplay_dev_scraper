@@ -16,6 +16,7 @@ Android Market / Google Checkout Scraper
 売上の集計をするなり、経理システムにぶち込むなり、お好きに
 どうぞ。
 
+
 必要システム
 ============
 
@@ -30,7 +31,8 @@ Mechanize は以下のようにインストールしてください。
     $ gem install mechanize -v 1.0.0
 
 '11/12/12 現在、Mechanize の最新版は 2.0.1 ですが、このバージョン
-では正常に動作しないので、1.0.0 が必要です。
+では正常に動作しません。そのため 1.0.0 が必要です。
+
 
 設定とか
 ========
@@ -43,8 +45,9 @@ secrets.rb.sample を secrets.rb にコピーし、Android Market に
 使い方
 ======
 
-売上レポートの取得 get-sales-report.rb を使います。
+売上レポートの取得には get-sales-report.rb を使います。
 例えば 2011年10月の売上を取得する場合は以下のようにします。
+結果は標準出力に出力されます。
 
     $ ./get-sales-report.rb 2011 10
 
@@ -65,6 +68,10 @@ secrets.rb.sample を secrets.rb にコピーし、Android Market に
 * PAYMENT_DECLINED : 支払いの不承認
 * REVIEWING : 確認中
 
+なお、オーダー一覧は最大で 500件までしか取得できません(サイトには
+そう書いてある)。したがって、これより多くのデータを取得したい場合は
+開始日時と終了日時を狭めて取得してください。
+
 
 内部動作とか
 ============
@@ -72,8 +79,8 @@ secrets.rb.sample を secrets.rb にコピーし、Android Market に
 Mechanize を使って Web サイトに自動アクセスし、フォームを叩いて
 CSV を入手するだけです。
 
-本体は android_checkout_scraper.rb です。
-ソース見れば何やってるかはわかる。
+本体は android_checkout_scraper.rb です。ソース見れば何やってる
+かはわかると思います。Rails アプリの中で使うとか、お好きにどうぞ。
 
 
 ライセンス
@@ -87,6 +94,10 @@ Public domain 扱いとします。
 
 * 無保証です。
 * Google 側のサイトの作りが変わったら当然動作しなくなります。
+* Google から怒られても責任は取りません。
+* 動かなくても文句言わない。自分で直すように。
+* 直したら修正を送るなり pull request するなりしてくれると嬉しい。
+
 
 ---
 '11/12/12
