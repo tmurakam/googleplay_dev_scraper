@@ -17,7 +17,5 @@ scraper = AndroidCheckoutScraper.new
 scraper.email = $email_address
 scraper.password = $password
 
-scraper.login
-
 csv = scraper.getSalesReport(year, month)
 puts csv

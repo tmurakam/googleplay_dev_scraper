@@ -12,10 +12,15 @@ require 'csv'
 # Google checkout scraper for Android
 #
 class AndroidCheckoutScraper
-  attr_accessor :proxy_host, :proxy_port, :email, :password
+  # Google account credencial
+  attr_accessor :email, :password
+
+  # proxy settings
+  attr_accessor :proxy_host, :proxy_port
   
   def initialize
     @agent = nil
+    @login_done = false
   end
   
   def setup
@@ -30,6 +35,8 @@ class AndroidCheckoutScraper
 
   # Login
   def login
+    return if @login_done
+
     unless @agent
       setup
     end
@@ -56,10 +63,13 @@ class AndroidCheckoutScraper
       STDERR.puts "login failed? : uri = " + @agent.page.uri.to_s
       raise 'Google login failed'
     end
+
+    @login_done = true
   end
 
   # Get merchant sales report
   def getSalesReport(year, month)
+    login
     url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
     @agent.get(url)
     return @agent.page.body
@@ -68,7 +78,11 @@ class AndroidCheckoutScraper
   # Get order list
   # startDate: start date (yyyy-mm-ddThh:mm:ss)
   # end: end date (yyyy-mm-ddThh:mm:ss)
+  # state: financial state, one of followings:
+  #   ALL, CANCELLED, CANCELLED_BY_GOOGLE, CHARGEABLE, CHARGED,
+  #   CHARGING, PAYMENT_DECLINED, REVIEWING
   def getOrderList(startDate, endDate, state = "CHARGED")
+    login
     @agent.get("https://checkout.google.com/sell/orders")
 
     @agent.page.form_with(:name => "dateInput") do |form|

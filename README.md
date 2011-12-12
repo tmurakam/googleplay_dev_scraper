@@ -53,12 +53,27 @@ secrets.rb.sample を secrets.rb にコピーし、Android Market に
 
     $ ./get-orders.rb 2011-08-01T:00:00:00 2011-09-30T23:59:59
 
+なお、get-orders.rb には第３引数として以下のいずれかの条件を指定
+できます。省略時は CHARGED が指定されたものとして扱います。
+
+* ALL : すべて
+* CANCELLED : ユーザーによりキャンセルされました
+* CANCELLED_BY_GOOGLE : Google によりキャンセルされました
+* CHARGEABLE: 請求可能
+* CHARGED : 請求済み
+* CHARGING : 請求中
+* PAYMENT_DECLINED : 支払いの不承認
+* REVIEWING : 確認中
+
 
 内部動作とか
 ============
 
 Mechanize を使って Web サイトに自動アクセスし、フォームを叩いて
-CSV を入手するだけです。ソース見れば何やってるかはわかる。
+CSV を入手するだけです。
+
+本体は android_checkout_scraper.rb です。
+ソース見れば何やってるかはわかる。
 
 
 ライセンス
