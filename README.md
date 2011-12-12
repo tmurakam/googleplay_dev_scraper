@@ -99,6 +99,11 @@ Public domain 扱いとします。
 * 直したら修正を送るなり pull request するなりしてくれると嬉しい。
 
 
+ひとりごと
+==========
+
+* Google さん、Android 向けの Google Checkout API 解放してくれるとすごく嬉しいのですが、、、
+
 ---
 '11/12/12
 Takuya Murakami, E-mail: tmurakam at tmurakam.org
