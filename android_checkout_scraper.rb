@@ -88,7 +88,11 @@ class AndroidCheckoutScraper
     @agent.page.form_with(:name => "dateInput") do |form|
       form["start-date"] = startDate
       form["end-date"] = endDate
-      form["financial-state"] = state
+      if (state == "ALL")
+        form.delete_field!("financial-state")
+      else
+        form["financial-state"] = state
+      end
       form["column-style"] = "EXPANDED"
       #form["date-time-zone"] = "Asia/Tokyo"
       #form["_type"] = "order-list-request"
