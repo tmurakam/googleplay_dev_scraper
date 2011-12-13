@@ -103,6 +103,25 @@ class AndroidCheckoutScraper
     return @agent.page.body
   end
 
+  
+  # get payout report
+  #
+  # type: PAYOUT_REPORT or TRANSACTION_DETAIL_REPORT
+  def getPayouts(startDay, endDay, type = "PAYOUT_REPORT")
+    login
+
+    @agent.get("https://checkout.google.com/sell/payouts")
+
+    @agent.page.form_with(:name => "btRangeReport") do |form|
+      form["startDay"] = startDay
+      form["endDay"] = endDay
+      form["reportType"] = type
+      form.click_button
+    end
+
+    return @agent.page.body
+  end
+
   # dump CSV (util)
   def dumpCsv(csv_string)
     headers = nil

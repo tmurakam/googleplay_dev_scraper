@@ -12,6 +12,7 @@ Android Market / Google Checkout Scraper
 
 * Android Market のデベロッパーコンソールで提供される販売レポート
 * Google Checkout で提供される注文リスト
+* 売上管理の支払概要
 
 売上の集計をするなり、経理システムにぶち込むなり、お好きに
 どうぞ。
@@ -71,6 +72,16 @@ secrets.rb.sample を secrets.rb にコピーし、Android Market に
 なお、オーダー一覧は最大で 500件までしか取得できません(サイトには
 そう書いてある)。したがって、これより多くのデータを取得したい場合は
 開始日時と終了日時を狭めて取得してください。
+
+Google checkout の支払概要取得は get-payouts.rb で行います。
+こちらは開始日と終了日を指定します。
+
+    $ ./get-payouts.rb 2011-11-01 2011-12-01
+
+第３引数には以下の引数を指定できます。省略時は PAYOUT_REPORT です。
+
+* PAYOUT_REPORT : 支払いの詳細
+* TRANSACTION_DETAIL_REPORT : トランザクション
 
 
 内部動作とか
