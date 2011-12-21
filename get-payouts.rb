@@ -9,12 +9,12 @@ if (ARGV.size < 2)
   exit 1
 end
 
-startdate = ARGV[0]
-enddate = ARGV[1]
+startdate = Date.parse(ARGV[0])
+enddate = Date.parse(ARGV[1])
 if (ARGV.size >= 3)
   type = ARGV[2]
 else
-  type = "PAYOUTS"
+  type = "PAYOUT_REPORT"
 end
 
 scraper = AndroidCheckoutScraper.new
@@ -22,7 +22,7 @@ scraper = AndroidCheckoutScraper.new
 scraper.email = $email_address
 scraper.password = $password
 
-csv = scraper.getPayouts("d:" + startdate, "d:" + enddate)
+csv = scraper.getPayouts(startdate, enddate, type)
 puts csv
 #scraper.dumpCsv(csv)
 

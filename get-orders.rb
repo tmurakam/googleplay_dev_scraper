@@ -23,6 +23,5 @@ scraper.email = $email_address
 scraper.password = $password
 
 csv = scraper.getOrderList(startdate, enddate, state)
-#puts csv
-scraper.dumpCsv(csv)
-
+puts csv
+#scraper.dumpCsv(csv)

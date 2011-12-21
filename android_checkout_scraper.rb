@@ -93,7 +93,7 @@ class AndroidCheckoutScraper
       else
         form["financial-state"] = state
       end
-      form["column-style"] = "EXPANDED"
+      #form["column-style"] = "EXPANDED"
       #form["date-time-zone"] = "Asia/Tokyo"
       #form["_type"] = "order-list-request"
       #form["query-type"] = ""
@@ -113,8 +113,8 @@ class AndroidCheckoutScraper
     @agent.get("https://checkout.google.com/sell/payouts")
 
     @agent.page.form_with(:name => "btRangeReport") do |form|
-      form["startDay"] = startDay
-      form["endDay"] = endDay
+      form["startDay"] = "d:" + startDay.to_s
+      form["endDay"] = "d:" + endDay.to_s
       form["reportType"] = type
       form.click_button
     end
