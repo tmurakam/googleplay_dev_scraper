@@ -122,6 +122,33 @@ class AndroidCheckoutScraper
     return @agent.page.body
   end
 
+  # push all deliver buttons
+  def autoDeliver
+    login
+
+    # access 'orders' page
+    @agent.get("https://checkout.google.com/sell/orders")
+
+    more_buttons = true
+
+    # 押すべきボタンがなくなるまで、ボタンを押し続ける
+    while(more_buttons)
+      more_buttons = false
+
+      @agent.page.forms.each do |form|
+#        if (form.submit_button?("archiveButton"))
+        if (form.submit_button?("deliverButton"))
+          order_id = form.field_with(:name => "OrderSelection").value
+          puts "Deliver : #{order_id}"
+
+          form.click_button
+          more_buttons = true
+          break
+        end
+      end
+    end
+  end
+
   # dump CSV (util)
   def dumpCsv(csv_string)
     headers = nil
