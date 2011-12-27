@@ -136,12 +136,13 @@ class AndroidCheckoutScraper
       more_buttons = false
 
       @agent.page.forms.each do |form|
-#        if (form.submit_button?("archiveButton"))
-        if (form.submit_button?("deliverButton"))
+#        button = form.button_with(:name => "archiveButton")
+        button = form.button_with(:name => "deliverButton")
+        if (button)
           order_id = form.field_with(:name => "OrderSelection").value
           puts "Deliver : #{order_id}"
 
-          form.click_button
+          form.click_button(button)
           more_buttons = true
           break
         end
