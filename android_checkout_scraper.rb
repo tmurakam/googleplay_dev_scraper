@@ -123,7 +123,7 @@ class AndroidCheckoutScraper
   end
 
   # push all deliver buttons
-  def autoDeliver
+  def autoDeliver(auto_archive = false)
     login
 
     # access 'orders' page
@@ -136,12 +136,23 @@ class AndroidCheckoutScraper
       more_buttons = false
 
       @agent.page.forms.each do |form|
-#        button = form.button_with(:name => "archiveButton")
-        button = form.button_with(:name => "deliverButton")
-        if (button)
-          order_id = form.field_with(:name => "OrderSelection").value
-          puts "Deliver : #{order_id}"
+        order_id = nil
+        order_field = form.field_with(:name => "OrderSelection")
+        if (order_field)
+            order_id = order_field.value
+        end
 
+        button = form.button_with(:name => "closeOrderButton")
+        if (button)
+          puts "Deliver : #{order_id}"
+        elsif (auto_archive)
+          button = form.button_with(:name => "archiveButton")
+          if (button)
+              puts "Archive : #{order_id}"
+          end
+        end
+
+        if (button)
           form.click_button(button)
           more_buttons = true
           break
