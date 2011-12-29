@@ -15,6 +15,8 @@ It can download following CSV files.
 
 Also, it can press all "ship" buttons on google checkout.
 
+You don't need any merchant key, because this tool scrapes
+google checkout website.
 
 Requirements
 ============
