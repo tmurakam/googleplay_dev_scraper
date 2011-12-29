@@ -10,3 +10,6 @@ scraper.email = $email_address
 scraper.password = $password
 
 scraper.autoDeliver
+
+# If you want to "archive" orders, use this.
+# scraper.autoDeliver true

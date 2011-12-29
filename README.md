@@ -28,8 +28,8 @@ You need to install Mechanize as:
     $ gem install mechanize -v 1.0.0
 
 
-Configuration
-=============
+Set up
+======
 
 Copy secrets.rb.sample to secrets.rb, and set up your
 mail address and password.
@@ -41,7 +41,7 @@ How to use
 Get sales report
 ----------------
 
-To download sales report for 2011/20:
+To download sales report for October 2011:
 
     $ ./get-sales-report.rb 2011 10
 
@@ -83,6 +83,9 @@ Press all "ship" buttons on Orders - Inbox page of google checkout:
 
     $ ./auto-deliver.rb
 
+Note: This can press buttons ONLY on first page. If you have too 
+many orders on first page, you must archive them manually.
+Or, modify auto-deliver.rb (see comments in the file).
 
 License
 =======
