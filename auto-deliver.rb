@@ -9,7 +9,9 @@ scraper = AndroidCheckoutScraper.new
 scraper.email = $email_address
 scraper.password = $password
 
-scraper.autoDeliver
+auto_archive = false
+if (ARGV[0] == "-a")
+  auto_archive = true
+end
 
-# If you want to "archive" orders, use this.
-# scraper.autoDeliver true
+scraper.autoDeliver auto_archive

@@ -85,9 +85,13 @@ Press all "ship" buttons on Orders - Inbox page of google checkout:
 
     $ ./auto-deliver.rb
 
+To archive all orders:
+
+    $ ./auto-deliver.rb -a
+
 Note: This can press buttons ONLY on first page. If you have too 
-many orders on first page, you must archive them manually.
-Or, modify auto-deliver.rb (see comments in the file).
+many orders on first page, you must archive them manually or
+use '-a' option.
 
 License
 =======
