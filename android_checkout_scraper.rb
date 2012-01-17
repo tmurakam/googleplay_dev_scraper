@@ -115,7 +115,9 @@ class AndroidCheckoutScraper
     @agent.page.form_with(:name => "btRangeReport") do |form|
       form["startDay"] = "d:" + startDay.to_s
       form["endDay"] = "d:" + endDay.to_s
-      form["reportType"] = type
+      #form["reportType"] = type
+      form.radiobutton_with(:value => type).check
+
       form.click_button
     end
 
