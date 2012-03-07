@@ -41,7 +41,8 @@ class AndroidCheckoutScraper
       setup
     end
 
-    target_uri = 'https://market.android.com/publish/Home'
+    #target_uri = 'https://market.android.com/publish/Home'
+    target_uri = 'https://play.google.com/apps/publish/Home'
 
     @agent.get(target_uri)
 
@@ -70,7 +71,8 @@ class AndroidCheckoutScraper
   # Get merchant sales report
   def getSalesReport(year, month)
     login
-    url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
+    #url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
+    url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report', year, month)
     @agent.get(url)
     return @agent.page.body
   end
