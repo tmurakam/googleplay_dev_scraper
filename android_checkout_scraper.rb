@@ -20,7 +20,6 @@ class AndroidCheckoutScraper
   
   def initialize
     @agent = nil
-    @login_done = false
   end
   
   def setup
@@ -33,25 +32,22 @@ class AndroidCheckoutScraper
     end
   end
 
-  # Login
-  def login
-    return if @login_done
-
+  def try_get(url)
     unless @agent
       setup
     end
 
-    #target_uri = 'https://market.android.com/publish/Home'
-    target_uri = 'https://play.google.com/apps/publish/Home'
+    # try to get
+    @agent.get(url)
 
-    @agent.get(target_uri)
-
+    # login needed?
     if (@agent.page.uri.host != "accounts.google.com" ||
         @agent.page.uri.path != "/ServiceLogin")
-      STDERR.puts "Invalid login url... : uri = #{@agent.page.uri}"
-      raise 'Google server connection error'
+      # already logined
+      return
     end
 
+    # do login
     form = @agent.page.forms.find {|f| f.form_node['id'] == "gaia_loginform"}
     if (!form)
       raise 'No login form'
@@ -60,20 +56,20 @@ class AndroidCheckoutScraper
     form.field_with(:name => "Passwd").value = @password
     form.click_button
 
-    if (@agent.page.uri.to_s != target_uri)
+    if (@agent.page.uri.host == "accounts.google.com")
       STDERR.puts "login failed? : uri = " + @agent.page.uri.to_s
       raise 'Google login failed'
     end
 
-    @login_done = true
+    # retry get
+    @agent.get(url)
   end
 
   # Get merchant sales report
   def getSalesReport(year, month)
-    login
     #url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
     url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report', year, month)
-    @agent.get(url)
+    try_get(url)
     return @agent.page.body
   end
 
@@ -84,8 +80,8 @@ class AndroidCheckoutScraper
   #   ALL, CANCELLED, CANCELLED_BY_GOOGLE, CHARGEABLE, CHARGED,
   #   CHARGING, PAYMENT_DECLINED, REVIEWING
   def getOrderList(startDate, endDate, state = "CHARGED")
-    login
-    @agent.get("https://checkout.google.com/sell/orders")
+
+    try_get("https://checkout.google.com/sell/orders")
 
     @agent.page.form_with(:name => "dateInput") do |form|
       form["start-date"] = startDate
@@ -110,9 +106,8 @@ class AndroidCheckoutScraper
   #
   # type: PAYOUT_REPORT or TRANSACTION_DETAIL_REPORT
   def getPayouts(startDay, endDay, type = "PAYOUT_REPORT")
-    login
 
-    @agent.get("https://checkout.google.com/sell/payouts")
+    try_get("https://checkout.google.com/sell/payouts")
 
     @agent.page.form_with(:name => "btRangeReport") do |form|
       form["startDay"] = "d:" + startDay.to_s
@@ -128,10 +123,8 @@ class AndroidCheckoutScraper
 
   # push all deliver buttons
   def autoDeliver(auto_archive = false)
-    login
-
     # access 'orders' page
-    @agent.get("https://checkout.google.com/sell/orders")
+    try_get("https://checkout.google.com/sell/orders")
 
     more_buttons = true
 
