@@ -34,7 +34,10 @@ Set up
 ======
 
 Copy secrets.rb.sample to secrets.rb, and set up your
-mail address and password.
+mail address and password, and developer account id.
+
+You can find your developer account id in the URL 
+after 'dev_acc=...' when login the developer console.
 
 
 How to use

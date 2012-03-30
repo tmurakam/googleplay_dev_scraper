@@ -13,7 +13,7 @@ require 'csv'
 #
 class AndroidCheckoutScraper
   # Google account credencial
-  attr_accessor :email, :password
+  attr_accessor :email, :password, :dev_acc
 
   # proxy settings
   attr_accessor :proxy_host, :proxy_port
@@ -68,7 +68,7 @@ class AndroidCheckoutScraper
   # Get merchant sales report
   def getSalesReport(year, month)
     #url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
-    url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report', year, month)
+    url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @dev_acc)
     try_get(url)
     return @agent.page.body
   end
