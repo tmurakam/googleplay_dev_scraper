@@ -40,6 +40,8 @@ Mechanize は以下のようにインストールしてください。
 設定とか
 ========
 
+config.rb.sample を config.rb にコピーし、編集してください。
+
 secrets.rb.sample を secrets.rb にコピーし、Android Market に
 ログインするときのメールアドレスとパスワード、デベロッパIDを
 設定してください。

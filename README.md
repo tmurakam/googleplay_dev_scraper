@@ -33,6 +33,8 @@ You need to install Mechanize as:
 Set up
 ======
 
+Copy config.rb.sample to config.rb and edit it.
+
 Copy secrets.rb.sample to secrets.rb, and set up your
 mail address and password, and developer account id.
 
