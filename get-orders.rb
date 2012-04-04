@@ -3,6 +3,7 @@
 
 require './android_checkout_scraper'
 require './secrets.rb'
+require './config.rb'
 
 if (ARGV.size < 2)
   STDERR.puts "Usage: #{$0} <start_date> <end_date> [<state>]"
@@ -18,6 +19,10 @@ else
 end
 
 scraper = AndroidCheckoutScraper.new
+if ($proxy_host != nil)
+  scraper.proxy_host = $proxy_host
+  scraper.proxy_port = $proxy_port
+end
 
 scraper.email = $email_address
 scraper.password = $password

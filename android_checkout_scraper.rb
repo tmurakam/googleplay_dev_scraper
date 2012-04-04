@@ -121,6 +121,13 @@ class AndroidCheckoutScraper
     return @agent.page.body
   end
 
+
+  # get order details page
+  def getOrderDetail(orderId)
+    try_get("https://checkout.google.com/sell/multiOrder?order=#{orderId}&ordersTable=1")
+    return @agent.page.body
+  end
+
   # push all deliver buttons
   def autoDeliver(auto_archive = false)
     # access 'orders' page
