@@ -72,6 +72,13 @@ class AndroidCheckoutScraper
     try_get(url)
     return @agent.page.body
   end
+  
+  # Get merchant etimated sales report
+  def getEstimatedSalesReport(year, month)
+    url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @dev_acc)
+    try_get(url)
+    return @agent.page.body
+  end
 
   # Get order list
   # startDate: start date (yyyy-mm-ddThh:mm:ss)
