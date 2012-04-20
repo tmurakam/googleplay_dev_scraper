@@ -63,6 +63,11 @@ dev_acc=... の数字です。
 
     $ ./get-sales-report.rb 2011 10
 
+また推定売上レポートもダウンロードできます。
+
+    $ ./get-estimated-sales-report.rb 2011 10
+
+
 オーダー一覧取得
 ----------------
 

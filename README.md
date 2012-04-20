@@ -52,6 +52,10 @@ To download sales report for October 2011:
 
     $ ./get-sales-report.rb 2011 10
 
+Or you can download estimated report too:
+
+    $ ./get-estimated-sales-report.rb 2011 10
+
 Get order report
 ----------------
 
