@@ -86,7 +86,7 @@ class AndroidCheckoutScraper
   # state: financial state, one of followings:
   #   ALL, CANCELLED, CANCELLED_BY_GOOGLE, CHARGEABLE, CHARGED,
   #   CHARGING, PAYMENT_DECLINED, REVIEWING
-  def getOrderList(startDate, endDate, state = "CHARGED")
+  def getOrderList(startDate, endDate, state = "CHARGED", expanded = false)
 
     try_get("https://checkout.google.com/sell/orders")
 
@@ -98,7 +98,9 @@ class AndroidCheckoutScraper
       else
         form["financial-state"] = state
       end
-      #form["column-style"] = "EXPANDED"
+      if (expanded)
+        form["column-style"] = "EXPANDED"
+      end
       #form["date-time-zone"] = "Asia/Tokyo"
       #form["_type"] = "order-list-request"
       #form["query-type"] = ""
