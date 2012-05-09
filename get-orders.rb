@@ -1,26 +1,30 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
+require 'optparse'
+
 require './android_checkout_scraper'
 require './secrets.rb'
 require './config.rb'
 
+details = false
+
+opts = OptionParser.new
+opts.on("--details", "Show expanded format") {|v| details = true }
+opts.parse!(ARGV)
+
 if (ARGV.size < 2)
-  STDERR.puts "Usage: #{$0} <start_date> <end_date> [<state>] [--details]"
+  STDERR.puts "Usage: #{$0} [options] <start_date> <end_date> [<state>]"
+  STDERR.puts "       #{$0} --help"
   exit 1
 end
 
 startdate = ARGV[0]
 enddate = ARGV[1]
-details = false
-if (ARGV.size >= 3 and ARGV[2] != '--details')
+if (ARGV.size >= 3)
   state = ARGV[2]
 else
   state = "CHARGED"
-end
-
-if (ARGV[ARGV.size - 1] == '--details')
-  details = true
 end
 
 scraper = AndroidCheckoutScraper.new
