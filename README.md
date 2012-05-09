@@ -63,6 +63,8 @@ To download order report, specify start and end time as:
 
     $ ./get-orders.rb 2011-08-01T:00:00:00 2011-09-30T23:59:59
 
+You can use --details option to show expanded csv format.
+
 You can specify 3rd argument from:
 
 * ALL
