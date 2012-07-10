@@ -94,6 +94,7 @@ dev_acc=... の数字です。
 そう書いてある)。したがって、これより多くのデータを取得したい場合は
 開始日時と終了日時を狭めて取得してください。
 
+
 支払い概要取得
 --------------
 
@@ -106,6 +107,19 @@ Google checkout の支払概要取得は get-payouts.rb で行います。
 
 * PAYOUT_REPORT : 支払いの詳細
 * TRANSACTION_DETAIL_REPORT : トランザクション
+
+
+アプリケーション統計情報取得
+----------------------------
+
+Developer Console の統計情報 CSV エクスポートと同じものを得ます。
+対象となるアプリのパッケージ名と、開始日/終了日を指定してください。
+
+    $ ./get-app-stats.rb your.package.name 20120101 20120630 > stat.zip
+
+ZIP ファイルが標準出力に出力されるので、リダイレクトでファイルに
+落としてください。
+
 
 発送ボタン自動処理
 ------------------
@@ -157,5 +171,5 @@ Public domain 扱いとします。
 * Google さん、Android 向けの Google Checkout API 解放してくれるとすごく嬉しいのですが、、、
 
 ---
-'11/12/12
+'12/7/10
 Takuya Murakami, E-mail: tmurakam at tmurakam.org

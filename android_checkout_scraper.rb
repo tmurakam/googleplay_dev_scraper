@@ -3,7 +3,7 @@
 
 require 'rubygems'
 
-gem 'mechanize', '1.0.0'
+gem 'mechanize'#, '1.0.0'
 require 'mechanize'
 
 require 'csv'
@@ -134,6 +134,25 @@ class AndroidCheckoutScraper
   # get order details page
   def getOrderDetail(orderId)
     try_get("https://checkout.google.com/sell/multiOrder?order=#{orderId}&ordersTable=1")
+    return @agent.page.body
+  end
+
+  # get application statistics CSV in zip
+  #
+  # package: package name
+  # startDay: start date (yyyyMMdd)
+  # endDay: end date (yyyyMMdd)
+  def getAppStats(package, startDay, endDay)
+    dim = "overall,country,language,os_version,device,app_version,carrier&met=daily_device_installs,active_device_installs,daily_user_installs,total_user_installs,active_user_installs,daily_device_uninstalls,daily_user_uninstalls,daily_device_upgrades"
+
+    url = "https://play.google.com/apps/publish/statistics/download"
+    url += "?package=#{package}"
+    url += "&sd=#{startDay}&ed=#{endDay}"
+    url += "&dim=#{dim}"
+    url += "&dev_acc=#{@dev_acc}"
+
+    puts url
+    try_get(url)
     return @agent.page.body
   end
 

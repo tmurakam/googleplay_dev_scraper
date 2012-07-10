@@ -89,6 +89,18 @@ You can specify 3rd argument from:
 * PAYOUT_REPORT
 * TRANSACTION_DETAIL_REPORT
 
+
+Get application satistics
+-------------------------
+
+Export application statistics in CSV format.
+Specify application package name and start/end date.
+
+    $ ./get-app-stats.rb your.package.name 20120101 20120630 > stat.zip
+
+Note: You must redirect output to zip file!
+
+
 Auto press ship buttons
 -----------------------
 
