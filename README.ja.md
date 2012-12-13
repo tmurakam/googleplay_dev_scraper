@@ -165,7 +165,21 @@ API の利用
 require 'googleplay_scraper'
 
 scraper = GooglePlayScraper::Scraper.new
-csv = scraper.get_sales_report(2012, 11)
+
+# set config (Note: config file is not read via API access)
+scraper.email = "foo@example.com"
+scraper.password = "YOUR_PASSWORD"
+scraper.dev_acc = "1234567890"
+
+# get sales report / estimated sales report
+puts scraper.get_sales_report(2012, 11)
+puts scraper.get_estimated_sales_report(2012, 12)
+
+# get orders
+puts scraper.get_order_list("2012-11-01T00:00:00", "2012-11-30T23:59:59", "CHARGED", true)
+
+# get payout report
+puts scraper.get_payouts("2012-11-01", "2012-12-1", "PAYOUT_REPORT")
 ```
 
 内部動作とか
