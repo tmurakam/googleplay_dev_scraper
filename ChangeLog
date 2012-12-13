@@ -1,2 +1,7 @@
+2012/12/13 : Takuya Murakami
+
+	* Use Bundler to install mechanize
+
 2012/07/10 : Takuya Murakami
+
 	* Add support to download application statistics

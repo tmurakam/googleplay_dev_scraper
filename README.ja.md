@@ -27,14 +27,17 @@ Android Market / Google Checkout Scraper
 
 * Ruby 1.8.7以上 or 1.9.2以上
 * RubyGems
-* Mechanize 1.0.0
+* Bundler
+* Mechanize
 
-Mechanize は以下のようにインストールしてください。
+Bundler がインストールされていない場合は、以下のようにして
+インストールします。
 
-    $ gem install mechanize -v 1.0.0
+    $ gem install bundler
 
-'11/12/12 現在、Mechanize の最新版は 2.0.1 ですが、このバージョン
-では正常に動作しません。そのため 1.0.0 が必要です。
+Mechanize は Bundler でインストールします。
+
+    $ bundle install
 
 
 設定とか
@@ -171,5 +174,5 @@ Public domain 扱いとします。
 * Google さん、Android 向けの Google Checkout API 解放してくれるとすごく嬉しいのですが、、、
 
 ---
-'12/7/10
+'12/12/13
 Takuya Murakami, E-mail: tmurakam at tmurakam.org

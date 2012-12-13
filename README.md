@@ -23,12 +23,16 @@ Requirements
 
 * Ruby >=1.8.7 or >= 1.9.2
 * RubyGems
-* Mechanize 1.0.0
+* Bundler
+* Mechanize
 
-You need to install Mechanize as:
+If you don't insalled bundler, install it:
 
-    $ gem install mechanize -v 1.0.0
+    $ gem install bundler
 
+Then install Mechanize:
+
+    $ bundle install
 
 Set up
 ======
@@ -128,5 +132,5 @@ Disclaimer
 * NO WARRANTY
 
 ---
-'11/12/12
+'12/12/13
 Takuya Murakami, E-mail: tmurakam at tmurakam.org
