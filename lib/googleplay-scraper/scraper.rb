@@ -17,7 +17,7 @@ module GooglePlayScraper
   #
   # Google Play and goole checkout scraper
   #
-  class GooglePlayScraper
+  class Scraper
     # Google account
     attr_accessor :email
 

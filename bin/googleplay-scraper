@@ -91,7 +91,7 @@ module GooglePlayScraper
     end
 
     def setup_scraper
-      @scraper = GooglePlayScraper.new
+      @scraper = Scraper.new
       @scraper.proxy_host = $proxy_host if $proxy_host
       @scraper.proxy_port = $proxy_port if $proxy_port
 
