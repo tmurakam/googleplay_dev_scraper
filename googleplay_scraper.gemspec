@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'googleplay-scraper/version'
+require 'googleplay_scraper/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "googleplay-scraper"
+  gem.name          = "googleplay_scraper"
   gem.version       = GooglePlayScraper::VERSION
   gem.authors       = ["Takuya Murakami"]
   gem.email         = ["tmurakam@tmurakam.org"]

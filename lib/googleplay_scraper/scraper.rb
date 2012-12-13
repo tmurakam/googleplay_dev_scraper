@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-
 # = GooglePlay Scraper
 # Author:: Takuya Murakami
 # License:: Public domain
