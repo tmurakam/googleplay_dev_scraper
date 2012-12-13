@@ -13,6 +13,8 @@ Version = GooglePlayScraper::VERSION
 module GooglePlayScraper
   class Tool
     def initialize
+      @scraper = Scraper.new
+
       $proxy_host = nil
       $proxy_port = nil
       $email_address = nil
@@ -24,12 +26,10 @@ module GooglePlayScraper
     end
 
     def main
-      load_config
+      @scraper.load_config_file
       parse_arguments
 
       usage if ARGV.size < 1
-
-      setup_scraper
 
       command = ARGV.shift
       case command
@@ -52,15 +52,6 @@ module GooglePlayScraper
       end
     end
 
-    def load_config
-      [".googleplay_scraper", ENV['HOME'] + "/.googleplay_scraper"].each do |file|
-        if File.exists? file
-          load file
-          break
-        end
-      end
-    end
-
     def usage
       STDERR.puts "Usage: #{$0} [options] command [arguments...]"
       STDERR.puts "       #{$0} --help"
@@ -77,32 +68,19 @@ module GooglePlayScraper
 
     def parse_arguments
       opts = OptionParser.new do |opt|
-        opt.on('-u email', 'set email address') {|v| $email_address = v}
-        opt.on('-p password', 'set password') {|v| $password = v}
-        opt.on('-a dev_acc', 'set dev_acc') {|v| $dev_acc = v}
+        opt.on('-u email', 'set email address') {|v| @scraper.email = v}
+        opt.on('-p password', 'set password') {|v| @scraper.password = v}
+        opt.on('-a dev_acc', 'set dev_acc') {|v| @scraper.dev_acc = v}
 
         opt.on('-P host:port', 'Set HTTP proxy/port') {|v|
           a = v.split(/:/)
-          $proxy_host = a[0]
-          $proxy_port = a[1]
+          @scraper.proxy_host = a[0]
+          @scraper.proxy_port = a[1]
         }
         opt.on('--details', 'Show detail CSV for order list') {|v| @show_details = true}
         opt.on('--auto', 'Auto deliver') {|v| @auto_archive = true}
         opt.parse!(ARGV)
       end
-    end
-
-    def setup_scraper
-      @scraper = Scraper.new
-      @scraper.proxy_host = $proxy_host if $proxy_host
-      @scraper.proxy_port = $proxy_port if $proxy_port
-
-      raise "No email address" if $email_address.nil?
-      @scraper.email = $email_address
-
-      raise "No password" if $password.nil?
-      @scraper.password = $password
-      @scraper.dev_acc = $dev_acc
     end
 
     def sales

@@ -35,6 +35,27 @@ module GooglePlayScraper
       @dev_acc = nil
     end
 
+    def load_config_file(path = nil)
+      config_files = [".googleplay_scraper", ENV['HOME'] + "/.googleplay_scraper"]
+      if path
+        config_files = [ path ]
+      end
+
+      config_files.each do |file|
+        if file && File.exists?(file)
+          load file
+          @proxy_host = $proxy_host if $proxy_host
+          @proxy_port = $proxy_port if $proxy_port
+
+          @email = $email_address if $email_address
+
+          @password = $password if $password
+          @dev_acc = $dev_acc if $dev_acc
+          break
+        end
+      end
+    end
+
     def setup
       #Mechanize.log = Logger.new("mechanize.log")
       #Mechanize.log.level = Logger::INFO
