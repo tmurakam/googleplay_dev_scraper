@@ -30,12 +30,12 @@ module GooglePlayScraper
 
       command = ARGV.shift
       case command
-      when "sales-report"
-        sales_report
-
+      when "sales"
+        sales
+      when "estimated"
+        estimated
       when "orders"
         orders
-
       else
         usage
       end
@@ -53,9 +53,10 @@ module GooglePlayScraper
     def usage
       STDERR.puts "Usage: #{$0} [options] command [arguments...]"
       STDERR.puts "       #{$0} --help"
-      STDERR.puts "    Commands:"
-      STDERR.puts "       sales-report <year> <month>"
-      STDERR.puts "       orders [--details] <start_date> <end_date> [<state>]"
+      STDERR.puts "  Commands:"
+      STDERR.puts "    sales <year> <month>       Get monthly sales report"
+      STDERR.puts "    estimated <year> <month>   Get estimated sales report"
+      STDERR.puts "    orders [--details] <start_date> <end_date> [<state>]    Get order list"
       exit 1
     end
 
@@ -88,13 +89,22 @@ module GooglePlayScraper
       @scraper.dev_acc = $dev_acc
     end
 
-    def sales_report
+    def sales
       usage if (ARGV.size < 2)
 
       year = ARGV[0]
       month = ARGV[1]
 
       puts @scraper.getSalesReport(year, month)
+    end
+
+    def estimated
+      usage if (ARGV.size < 2)
+
+      year = ARGV[0]
+      month = ARGV[1]
+
+      puts @scraper.getEstimatedSalesReport(year, month)
     end
 
     # get daily orders
