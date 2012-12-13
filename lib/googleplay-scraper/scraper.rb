@@ -1,6 +1,11 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
+
+# = GooglePlay Scraper
+# Author:: Takuya Murakami
+# License:: Public domain
+
 require 'rubygems'
 
 gem 'mechanize'#, '1.0.0'
@@ -8,16 +13,25 @@ require 'mechanize'
 
 require 'csv'
 
-#
-# Google checkout scraper for Android
-#
 module GooglePlayScraper
+  #
+  # Google Play and goole checkout scraper
+  #
   class GooglePlayScraper
-    # Google account credencial
-    attr_accessor :email, :password, :dev_acc
+    # Google account
+    attr_accessor :email
 
-    # proxy settings
-    attr_accessor :proxy_host, :proxy_port
+    # Password to login google account
+    attr_accessor :password
+
+    # developer account ID
+    attr_accessor :dev_acc
+
+    # HTTP proxy host
+    attr_accessor :proxy_host
+    
+    # HTTP proxy port
+    attr_accessor :proxy_port
   
     def initialize
       @agent = nil
@@ -66,7 +80,12 @@ module GooglePlayScraper
       @agent.get(url)
     end
 
-    # Get merchant sales report
+    # Get sales report
+    # [year]
+    #   Year (ex. 2012)
+    # [month]
+    #   Month (1 - 12)
+    #
     def getSalesReport(year, month)
       #url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
       url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @dev_acc)
@@ -74,7 +93,13 @@ module GooglePlayScraper
       return @agent.page.body
     end
     
-    # Get merchant etimated sales report
+    # Get estimated sales report
+    #
+    # [year]
+    #   Year (ex. 2012)
+    # [month]
+    #   Month (1 - 12)
+    #
     def getEstimatedSalesReport(year, month)
       url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @dev_acc)
       try_get(url)
@@ -82,11 +107,17 @@ module GooglePlayScraper
     end
 
     # Get order list
-    # startDate: start date (yyyy-mm-ddThh:mm:ss)
-    # end: end date (yyyy-mm-ddThh:mm:ss)
-    # state: financial state, one of followings:
+    #
+    # [start_date]
+    #   start date (yyyy-MM-ddThh:mm:ss)
+    # [end_date]
+    #   end date (yyyy-MM-ddThh:mm:ss)
+    # [state]
+    #   financial state, one of followings:
     #   ALL, CANCELLED, CANCELLED_BY_GOOGLE, CHARGEABLE, CHARGED,
     #   CHARGING, PAYMENT_DECLINED, REVIEWING
+    # [espanded]
+    #   true - expanded list, false - normal list
     def getOrderList(startDate, endDate, state = "CHARGED", expanded = false)
 
       try_get("https://checkout.google.com/sell/orders")
@@ -112,9 +143,14 @@ module GooglePlayScraper
     end
 
     
-    # get payout report
+    # Get payout report
     #
-    # type: PAYOUT_REPORT or TRANSACTION_DETAIL_REPORT
+    # [startDay]
+    #   start day (yyyy-MM-dd)
+    # [endDay]
+    #   end day (yyyy-MM-dd)
+    # [type]
+    #   PAYOUT_REPORT or TRANSACTION_DETAIL_REPORT
     def getPayouts(startDay, endDay, type = "PAYOUT_REPORT")
 
       try_get("https://checkout.google.com/sell/payouts")
