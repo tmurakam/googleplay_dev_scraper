@@ -86,7 +86,7 @@ module GooglePlayScraper
     # [month]
     #   Month (1 - 12)
     #
-    def getSalesReport(year, month)
+    def get_sales_report(year, month)
       #url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
       url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @dev_acc)
       try_get(url)
@@ -100,7 +100,7 @@ module GooglePlayScraper
     # [month]
     #   Month (1 - 12)
     #
-    def getEstimatedSalesReport(year, month)
+    def get_estimated_sales_report(year, month)
       url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @dev_acc)
       try_get(url)
       return @agent.page.body
@@ -118,13 +118,13 @@ module GooglePlayScraper
     #   CHARGING, PAYMENT_DECLINED, REVIEWING
     # [espanded]
     #   true - expanded list, false - normal list
-    def getOrderList(startDate, endDate, state = "CHARGED", expanded = false)
+    def get_order_list(start_date, end_date, state = "CHARGED", expanded = false)
 
       try_get("https://checkout.google.com/sell/orders")
 
       @agent.page.form_with(:name => "dateInput") do |form|
-        form["start-date"] = startDate
-        form["end-date"] = endDate
+        form["start-date"] = start_date
+        form["end-date"] = end_date
         if (state == "ALL")
           form.delete_field!("financial-state")
         else
@@ -145,19 +145,19 @@ module GooglePlayScraper
     
     # Get payout report
     #
-    # [startDay]
+    # [start_day]
     #   start day (yyyy-MM-dd)
-    # [endDay]
+    # [end_day]
     #   end day (yyyy-MM-dd)
     # [type]
     #   PAYOUT_REPORT or TRANSACTION_DETAIL_REPORT
-    def getPayouts(startDay, endDay, type = "PAYOUT_REPORT")
+    def get_payouts(start_day, end_day, type = "PAYOUT_REPORT")
 
       try_get("https://checkout.google.com/sell/payouts")
 
       @agent.page.form_with(:name => "btRangeReport") do |form|
-        form["startDay"] = "d:" + startDay.to_s
-        form["endDay"] = "d:" + endDay.to_s
+        form["startDay"] = "d:" + start_day.to_s
+        form["endDay"] = "d:" + end_day.to_s
         #form["reportType"] = type
         form.radiobutton_with(:value => type).check
 
@@ -168,23 +168,28 @@ module GooglePlayScraper
     end
 
 
-    # get order details page
-    def getOrderDetail(orderId)
+    # Get order details page
+    # [orderId]
+    #   google order ID
+    def get_order_detail(orderId)
       try_get("https://checkout.google.com/sell/multiOrder?order=#{orderId}&ordersTable=1")
       return @agent.page.body
     end
 
-    # get application statistics CSV in zip
+    # Get application statistics CSV in zip
     #
-    # package: package name
-    # startDay: start date (yyyyMMdd)
-    # endDay: end date (yyyyMMdd)
-    def getAppStats(package, startDay, endDay)
+    # [package]
+    #   package name
+    # [start_day]
+    #   start date (yyyyMMdd)
+    # [end_day]
+    #   end date (yyyyMMdd)
+    def get_appstats(package, start_day, end_day)
       dim = "overall,country,language,os_version,device,app_version,carrier&met=daily_device_installs,active_device_installs,daily_user_installs,total_user_installs,active_user_installs,daily_device_uninstalls,daily_user_uninstalls,daily_device_upgrades"
 
       url = "https://play.google.com/apps/publish/statistics/download"
       url += "?package=#{package}"
-      url += "&sd=#{startDay}&ed=#{endDay}"
+      url += "&sd=#{start_day}&ed=#{end_day}"
       url += "&dim=#{dim}"
       url += "&dev_acc=#{@dev_acc}"
 
@@ -193,8 +198,10 @@ module GooglePlayScraper
       return @agent.page.body
     end
 
-    # push all deliver buttons
-    def autoDeliver(auto_archive = false)
+    # Push all deliver buttons
+    # [auto_archive]
+    #   auto archive flag
+    def auto_deliver(auto_archive = false)
       # access 'orders' page
       try_get("https://checkout.google.com/sell/orders")
 

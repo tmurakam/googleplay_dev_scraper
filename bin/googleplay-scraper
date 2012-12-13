@@ -109,7 +109,7 @@ module GooglePlayScraper
       year = ARGV[0]
       month = ARGV[1]
 
-      puts @scraper.getSalesReport(year, month)
+      puts @scraper.get_sales_report(year, month)
     end
 
     def estimated
@@ -118,7 +118,7 @@ module GooglePlayScraper
       year = ARGV[0]
       month = ARGV[1]
 
-      puts @scraper.getEstimatedSalesReport(year, month)
+      puts @scraper.get_estimated_sales_report(year, month)
     end
 
     # get daily orders
@@ -132,12 +132,12 @@ module GooglePlayScraper
         state = ARGV[2]
       end
 
-      puts @scraper.getOrderList(startdate, enddate, state, @show_details)
+      puts @scraper.get_order_list(startdate, enddate, state, @show_details)
     end
 
     def order
       orderId = ARGV[0]
-      puts @scraper.getOrderDetail(orderId)
+      puts @scraper.get_order_detail(orderId)
     end
 
     def payouts
@@ -148,7 +148,7 @@ module GooglePlayScraper
         type = ARGV[2]
       end
 
-      puts @scraper.getPayouts(startdate, enddate, type)
+      puts @scraper.get_payouts(startdate, enddate, type)
     end
 
     def appstats
@@ -157,11 +157,11 @@ module GooglePlayScraper
       startDay = ARGV[1]
       endDay = ARGV[2]
 
-      puts @scraper.getAppStats(package, startDay, endDay)
+      puts @scraper.get_appstats(package, startDay, endDay)
     end
 
     def autodeliver
-      @scraper.autoDeliver @auto_archive
+      @scraper.auto_deliver @auto_archive
     end
   end
 end
