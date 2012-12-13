@@ -11,8 +11,8 @@ require 'csv'
 #
 # Google checkout scraper for Android
 #
-module AndroidCheckoutScraper
-  class Scraper
+module GooglePlayScraper
+  class GooglePlayScraper
     # Google account credencial
     attr_accessor :email, :password, :dev_acc
 
@@ -213,6 +213,3 @@ module AndroidCheckoutScraper
     end
   end
 end
-
-
-

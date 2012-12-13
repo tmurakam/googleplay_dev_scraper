@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'android-checkout-scraper/version'
+require 'googleplay-scraper/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "android-checkout-scraper"
-  gem.version       = AndroidCheckoutScraper::VERSION
+  gem.name          = "googleplay-scraper"
+  gem.version       = GooglePlayScraper::VERSION
   gem.authors       = ["Takuya Murakami"]
   gem.email         = ["tmurakam@tmurakam.org"]
   gem.description   = %q{TODO: Write a gem description}

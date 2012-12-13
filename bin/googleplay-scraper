@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+# design time...
+lib = File.expand_path('../lib', File.dirname(__FILE__))
+$LOAD_PATH.unshift(lib)
+
+require 'optparse'
+require 'googleplay-scraper'
+
+module GooglePlayScraper
+  class Tool
+    def main
+      # parse arguments
+      opts = OptionParser.new do |opt|
+        opt.on('-c command', 'set command') {|v| @command = v}
+        opt.on('-u username', 'set username') {|v| @email = v}
+        opt.on('-p password', 'set password') {|v| @password = v}
+        opt.on('-a dev_acc', 'set dev_acc') {|v| @dev_acc = v}
+
+        opt.on('-P host:port', 'Set HTTP proxy/port') {|v|
+          a = v.split(/:/)
+          @proxy_host = a[0]
+          @proxy_port = a[1]
+        }
+        opt.on('--details', 'Show detail CSV for order list') {|v| p v}
+        opt.parse!(ARGV)
+      end
+    end
+  end
+end
+
+tool = GooglePlayScraper::Tool.new
+tool.main
+
