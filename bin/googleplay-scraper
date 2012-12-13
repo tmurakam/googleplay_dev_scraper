@@ -10,10 +10,40 @@ require 'googleplay-scraper'
 
 module GooglePlayScraper
   class Tool
+    def initialize
+      @proxy_host = nil
+      @proxy_port = nil
+      @email = nil
+      @password = nil
+      @dev_acc = nil
+    end
+
     def main
-      # parse arguments
+      parse_arguments
+
+      usage if ARGV.size < 2
+
+      setup_scraper
+
+      command = ARGV.shift
+      case command
+      when "sales-report"
+        sales_report
+      else
+        usage
+      end
+    end
+
+    def usage
+      STDERR.puts "Usage: #{$0} [options] command [arguments...]"
+      STDERR.puts "       #{$0} --help"
+      STDERR.puts "    Commands:"
+      STDERR.puts "       sales-report <year> <month>"
+      exit 1
+    end
+
+    def parse_arguments
       opts = OptionParser.new do |opt|
-        opt.on('-c command', 'set command') {|v| @command = v}
         opt.on('-u username', 'set username') {|v| @email = v}
         opt.on('-p password', 'set password') {|v| @password = v}
         opt.on('-a dev_acc', 'set dev_acc') {|v| @dev_acc = v}
@@ -26,6 +56,24 @@ module GooglePlayScraper
         opt.on('--details', 'Show detail CSV for order list') {|v| p v}
         opt.parse!(ARGV)
       end
+    end
+
+    def setup_scraper
+      @scraper = GooglePlayScraper.new
+      @scraper.proxy_host = @proxy_host if @proxy_host
+      @scraper.proxy_port = @proxy_port if @proxy_port
+      @scraper.email = @email
+      @scraper.password = @password
+      @scraper.dev_acc = @dev_acc
+    end
+
+    def sales_report
+      usage if (ARGV.size < 2)
+
+      year = ARGV[0]
+      month = ARGV[1]
+
+      puts @scraper.getSalesReport(year, month)
     end
   end
 end
