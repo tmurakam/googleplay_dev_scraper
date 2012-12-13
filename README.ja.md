@@ -27,32 +27,48 @@ Google Play / Google Checkout Scraper
 
 * Ruby 1.8.7以上 or 1.9.2以上
 * RubyGems
-* Bundler
-* Mechanize
 
-Bundler がインストールされていない場合は、以下のようにして
-インストールします。
+以下のようにしてインストールします。
 
-    $ gem install bundler
-
-Mechanize は Bundler でインストールします。
-
-    $ bundle install
+    $ gem install googleplay-scraper
 
 
-設定とか
-========
+設定
+====
 
-config.rb.sample を config.rb にコピーし、編集してください。
+設定ファイルを ~/.googleplay-scraper に作成してください。
+以下にサンプルを示します。
 
-secrets.rb.sample を secrets.rb にコピーし、Android Market に
-ログインするときのメールアドレスとパスワード、デベロッパIDを
-設定してください。
+Google Play メールアドレスとパスワード、デベロッパIDを設定してください。
 (素のパスワードを設定するのでアクセス権には注意)
 
 デベロッパID は、developer console にログインした後の URL 末尾の
 dev_acc=... の数字です。
 
+```
+# GooglePlay scraper config file sample
+#
+# Place this content to your ~/.googleplay-scraper or
+# ./.googleplay-scraper.
+#
+# Warning: This file contains password, be careful
+# of file permission.
+
+# Your E-mail address to login google play
+$email_address = ""
+
+# Your password to login google play
+$password = ""
+
+# Developer account ID
+# You can find your developer account ID in the URL 
+# after 'dev_acc=...' when login the developer console.
+$dev_acc=""
+
+# Proxy host and port number (if needed) 
+#$proxy_host = nil
+#$proxy_port = -1
+```
 
 使い方
 ======
@@ -60,28 +76,27 @@ dev_acc=... の数字です。
 売上レポート取得
 ----------------
 
-売上レポートの取得には get-sales-report.rb を使います。
-例えば 2011年10月の売上を取得する場合は以下のようにします。
+2011年10月の売上を取得する場合は以下のようにします。
 結果は標準出力に出力されます。
 
-    $ ./get-sales-report.rb 2011 10
+    $ googleplay-scraper sales 2011 10
 
 また推定売上レポートもダウンロードできます。
 
-    $ ./get-estimated-sales-report.rb 2011 10
+    $ googleplay-scraper estimated 2011 10
 
 
 オーダー一覧取得
 ----------------
 
-オーダー一覧取得は get-orders.rb を使います。こちらは開始日時と
-終了日時を指定します。時刻は日本時間で指定。
+オーダーの一覧を取得します。
+開始日時と終了日時を指定します。時刻は日本時間で指定。
 
-    $ ./get-orders.rb 2011-08-01T:00:00:00 2011-09-30T23:59:59
+    $ googleplay-scraper orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
 
 --details オプションを付与すると詳細な CSV データを出力します。
 
-なお、get-orders.rb には第３引数として以下のいずれかの条件を指定
+なお、第３引数として以下のいずれかの条件を指定
 できます。省略時は CHARGED が指定されたものとして扱います。
 
 * ALL : すべて
@@ -101,10 +116,10 @@ dev_acc=... の数字です。
 支払い概要取得
 --------------
 
-Google checkout の支払概要取得は get-payouts.rb で行います。
+Google checkout の支払概要を取得します。
 こちらは開始日と終了日を指定します。
 
-    $ ./get-payouts.rb 2011-11-01 2011-12-01
+    $ googleplay-scraper payouts 2011-11-01 2011-12-01
 
 第３引数には以下の引数を指定できます。省略時は PAYOUT_REPORT です。
 
@@ -118,7 +133,7 @@ Google checkout の支払概要取得は get-payouts.rb で行います。
 Developer Console の統計情報 CSV エクスポートと同じものを得ます。
 対象となるアプリのパッケージ名と、開始日/終了日を指定してください。
 
-    $ ./get-app-stats.rb your.package.name 20120101 20120630 > stat.zip
+    $ googleplay-scraper appstats your.package.name 20120101 20120630 > stat.zip
 
 ZIP ファイルが標準出力に出力されるので、リダイレクトでファイルに
 落としてください。
@@ -130,16 +145,14 @@ ZIP ファイルが標準出力に出力されるので、リダイレクトで�
 注文の受信トレイにある全ての「発送」ボタンを自動で押す機能です。
 使い方は以下のとおり。
 
-    $ ./auto-deliver.rb
+    $ googleplay-scraper autodeliver
 
-「アーカイブ」も全部押したい場合は -a オプションをつけてください。
-
-    $ ./auto-deliver.rb -a
+「アーカイブ」も全部押したい場合は --auto オプションをつけてください。
 
 なお、発送ボタンが押されるのは注文の受信トレイの１ページ目に
 あるオーダーだけです。2ページ目以降のものは押されません。
 
-# そもそもなんで発送ボタンなるものがあるのか不明ですが、、、
+そもそもなんで発送ボタンなるものがあるのか不明ですが、、、
 
 
 内部動作とか
