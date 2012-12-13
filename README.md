@@ -1,10 +1,10 @@
-Android Market / Google Checkout Scraper
+Google Play / Google Checkout Scraper
 ========================================
 
 Introduction
 ============
 
-This tool is designed to download CSV files for android market 
+This tool is designed to download CSV files for Google Play
 from google checkout site automatically.
 
 It can download following CSV files.

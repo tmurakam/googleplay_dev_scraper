@@ -1,16 +1,16 @@
-Android Market / Google Checkout Scraper
+Google Play / Google Checkout Scraper
 ========================================
 
 はじめに
 ========
 
-このツールは、Android Market および Google Checkout で提供
+このツールは、Google Play および Google Checkout で提供
 される販売者向けの売上レポート CSV ファイルを自動でダウン
 ロードするためのツールです。
 
 ダウンロードできるのは以下の２通りです。
 
-* Android Market のデベロッパーコンソールで提供される販売レポート
+* Google Play のデベロッパーコンソールで提供される販売レポート
 * Google Checkout で提供される注文リスト
 * 売上管理の支払概要
 
