@@ -5,7 +5,7 @@ require 'android-checkout-scraper/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "android-checkout-scraper"
-  gem.version       = Android::Checkout::Scraper::VERSION
+  gem.version       = AndroidCheckoutScraper::VERSION
   gem.authors       = ["Takuya Murakami"]
   gem.email         = ["tmurakam@tmurakam.org"]
   gem.description   = %q{TODO: Write a gem description}
