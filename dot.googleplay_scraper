@@ -1,7 +1,7 @@
 # GooglePlay scraper config file sample
 #
-# Place this content to your ~/.googleplay-scraper or
-# ./.googleplay-scraper.
+# Place this content to your ~/.googleplay_scraper or
+# ./.googleplay_scraper.
 #
 # Warning: This file contains password, be careful
 # of file permission.

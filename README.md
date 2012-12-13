@@ -27,19 +27,19 @@ Requirements/Installation
 
 To install:
 
-    $ gem install googleplay-scraper
+    $ gem install googleplay_scraper
 
 Configuration
 =============
 
-Create configuration file with ~/.googleplay-scraper,
-or ./.googleplay-scraper.
+Create configuration file with ~/.googleplay_scraper,
+or ./.googleplay_scraper.
 
 ```
 # GooglePlay scraper config file sample
 #
-# Place this content to your ~/.googleplay-scraper or
-# ./.googleplay-scraper.
+# Place this content to your ~/.googleplay_scraper or
+# ./.googleplay_scraper.
 #
 # Warning: This file contains password, be careful
 # of file permission.
@@ -68,18 +68,18 @@ Get sales report
 
 To download sales report for October 2011:
 
-    $ googleplay-scraper sales 2011 10
+    $ googleplay_scraper sales 2011 10
 
 Or you can download estimated report too:
 
-    $ googleplay-scraper estimated 2011 10
+    $ googleplay_scraper estimated 2011 10
 
 Get order report
 ----------------
 
 To download order report, specify start and end time as:
 
-    $ googleplay-scraper orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
+    $ googleplay_scraper orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
 
 You can use --details option to show expanded csv format.
 
@@ -100,7 +100,7 @@ Get payout report
 
 To download payout report, specify start / end date as:
 
-    $ googleplay-scraper payouts 2011-11-01 2011-12-01
+    $ googleplay_scraper payouts 2011-11-01 2011-12-01
 
 You can specify 3rd argument from:
 
@@ -114,7 +114,7 @@ Get application satistics
 Export application statistics in CSV format.
 Specify application package name and start/end date.
 
-    $ googleplay-scraper appstats your.package.name 20120101 20120630 > stat.zip
+    $ googleplay_scraper appstats your.package.name 20120101 20120630 > stat.zip
 
 Note: You must redirect output to zip file!
 
@@ -124,15 +124,27 @@ Auto press ship buttons
 
 Press all "ship" buttons on Orders - Inbox page of google checkout:
 
-    $ googleplay-scraper autodeliver
+    $ googleplay_scraper autodeliver
 
 To archive all orders:
 
-    $ googleplay-scraper --auto autodeliver
+    $ googleplay_scraper --auto autodeliver
 
 Note: This can press buttons ONLY on first page. If you have too 
 many orders on first page, you must archive them manually or
 use '--auto' option.
+
+API usage
+=========
+
+Example:
+
+```
+require 'googleplay_scraper'
+
+scraper = GooglePlayScraper::Scraper.new
+csv = scraper.get_sales_report(2012, 11)
+```
 
 License
 =======

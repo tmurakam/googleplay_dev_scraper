@@ -6,7 +6,7 @@
 #$LOAD_PATH.unshift(lib)
 
 require 'optparse'
-require 'googleplay-scraper'
+require 'googleplay_scraper'
 
 Version = GooglePlayScraper::VERSION
 
@@ -53,7 +53,7 @@ module GooglePlayScraper
     end
 
     def load_config
-      [".googleplay-scraper", ENV['HOME'] + "/.googleplay-scraper"].each do |file|
+      [".googleplay_scraper", ENV['HOME'] + "/.googleplay_scraper"].each do |file|
         if File.exists? file
           load file
           break
