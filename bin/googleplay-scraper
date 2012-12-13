@@ -16,6 +16,8 @@ module GooglePlayScraper
       $email_address = nil
       $password = nil
       $dev_acc = nil
+
+      @show_details = false
     end
 
     def main
@@ -30,6 +32,10 @@ module GooglePlayScraper
       case command
       when "sales-report"
         sales_report
+
+      when "orders"
+        orders
+
       else
         usage
       end
@@ -49,6 +55,7 @@ module GooglePlayScraper
       STDERR.puts "       #{$0} --help"
       STDERR.puts "    Commands:"
       STDERR.puts "       sales-report <year> <month>"
+      STDERR.puts "       orders [--details] <start_date> <end_date> [<state>]"
       exit 1
     end
 
@@ -63,7 +70,7 @@ module GooglePlayScraper
           $proxy_host = a[0]
           $proxy_port = a[1]
         }
-        opt.on('--details', 'Show detail CSV for order list') {|v| p v}
+        opt.on('--details', 'Show detail CSV for order list') {|v| @show_details = true}
         opt.parse!(ARGV)
       end
     end
@@ -88,6 +95,20 @@ module GooglePlayScraper
       month = ARGV[1]
 
       puts @scraper.getSalesReport(year, month)
+    end
+
+    # get daily orders
+    def orders
+      usage if (ARGV.size < 2)
+
+      startdate = ARGV[0]
+      enddate = ARGV[1]
+      state = "CHARGED"
+      if (ARGV.size >= 3)
+        state = ARGV[2]
+      end
+
+      puts @scraper.getOrderList(startdate, enddate, state, @show_details)
     end
   end
 end
