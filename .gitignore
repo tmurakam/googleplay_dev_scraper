@@ -1,6 +1,5 @@
-secrets.rb
-config.rb
 *~
+.idea/
 
 *.gem
 *.rbc
