@@ -11,14 +11,15 @@ require 'googleplay-scraper'
 module GooglePlayScraper
   class Tool
     def initialize
-      @proxy_host = nil
-      @proxy_port = nil
-      @email = nil
-      @password = nil
-      @dev_acc = nil
+      $proxy_host = nil
+      $proxy_port = nil
+      $email_address = nil
+      $password = nil
+      $dev_acc = nil
     end
 
     def main
+      load_config
       parse_arguments
 
       usage if ARGV.size < 2
@@ -34,6 +35,15 @@ module GooglePlayScraper
       end
     end
 
+    def load_config
+      [".googleplay-scraper", ENV['HOME'] + "/.googleplay-scraper"].each do |file|
+        if File.exists? file
+          load file
+          break
+        end
+      end
+    end
+
     def usage
       STDERR.puts "Usage: #{$0} [options] command [arguments...]"
       STDERR.puts "       #{$0} --help"
@@ -44,14 +54,14 @@ module GooglePlayScraper
 
     def parse_arguments
       opts = OptionParser.new do |opt|
-        opt.on('-u username', 'set username') {|v| @email = v}
-        opt.on('-p password', 'set password') {|v| @password = v}
-        opt.on('-a dev_acc', 'set dev_acc') {|v| @dev_acc = v}
+        opt.on('-u email', 'set email address') {|v| $email_address = v}
+        opt.on('-p password', 'set password') {|v| $password = v}
+        opt.on('-a dev_acc', 'set dev_acc') {|v| $dev_acc = v}
 
         opt.on('-P host:port', 'Set HTTP proxy/port') {|v|
           a = v.split(/:/)
-          @proxy_host = a[0]
-          @proxy_port = a[1]
+          $proxy_host = a[0]
+          $proxy_port = a[1]
         }
         opt.on('--details', 'Show detail CSV for order list') {|v| p v}
         opt.parse!(ARGV)
@@ -60,11 +70,15 @@ module GooglePlayScraper
 
     def setup_scraper
       @scraper = GooglePlayScraper.new
-      @scraper.proxy_host = @proxy_host if @proxy_host
-      @scraper.proxy_port = @proxy_port if @proxy_port
-      @scraper.email = @email
-      @scraper.password = @password
-      @scraper.dev_acc = @dev_acc
+      @scraper.proxy_host = $proxy_host if $proxy_host
+      @scraper.proxy_port = $proxy_port if $proxy_port
+
+      raise "No email address" if $email_address.nil?
+      @scraper.email = $email_address
+
+      raise "No password" if $password.nil?
+      @scraper.password = $password
+      @scraper.dev_acc = $dev_acc
     end
 
     def sales_report
