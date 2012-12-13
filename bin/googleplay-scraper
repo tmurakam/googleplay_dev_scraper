@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # design time...
-lib = File.expand_path('../lib', File.dirname(__FILE__))
-$LOAD_PATH.unshift(lib)
+#lib = File.expand_path('../lib', File.dirname(__FILE__))
+#$LOAD_PATH.unshift(lib)
 
 require 'optparse'
 require 'googleplay-scraper'
