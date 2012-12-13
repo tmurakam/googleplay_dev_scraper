@@ -88,6 +88,8 @@ module GooglePlayScraper
     #   Year (ex. 2012)
     # [month]
     #   Month (1 - 12)
+    # [Return]
+    #   CSV string
     #
     def get_sales_report(year, month)
       #url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
@@ -102,6 +104,8 @@ module GooglePlayScraper
     #   Year (ex. 2012)
     # [month]
     #   Month (1 - 12)
+    # [Return]
+    #   CSV string
     #
     def get_estimated_sales_report(year, month)
       url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @dev_acc)
@@ -119,8 +123,10 @@ module GooglePlayScraper
     #   financial state, one of followings:
     #   ALL, CANCELLED, CANCELLED_BY_GOOGLE, CHARGEABLE, CHARGED,
     #   CHARGING, PAYMENT_DECLINED, REVIEWING
-    # [espanded]
+    # [expanded]
     #   true - expanded list, false - normal list
+    # [Return]
+    #   CSV string
     def get_order_list(start_date, end_date, state = "CHARGED", expanded = false)
 
       try_get("https://checkout.google.com/sell/orders")
@@ -154,6 +160,8 @@ module GooglePlayScraper
     #   end day (yyyy-MM-dd)
     # [type]
     #   PAYOUT_REPORT or TRANSACTION_DETAIL_REPORT
+    # [Return]
+    #   CSV string
     def get_payouts(start_day, end_day, type = "PAYOUT_REPORT")
 
       try_get("https://checkout.google.com/sell/payouts")
@@ -174,6 +182,8 @@ module GooglePlayScraper
     # Get order details page
     # [orderId]
     #   google order ID
+    # [Return]
+    #   CSV string
     def get_order_detail(orderId)
       try_get("https://checkout.google.com/sell/multiOrder?order=#{orderId}&ordersTable=1")
       return @agent.page.body.force_encoding("UTF-8")
@@ -187,6 +197,9 @@ module GooglePlayScraper
     #   start date (yyyyMMdd)
     # [end_day]
     #   end date (yyyyMMdd)
+    # [Return]
+    #   application statics zip data
+    #
     def get_appstats(package, start_day, end_day)
       dim = "overall,country,language,os_version,device,app_version,carrier&met=daily_device_installs,active_device_installs,daily_user_installs,total_user_installs,active_user_installs,daily_device_uninstalls,daily_user_uninstalls,daily_device_upgrades"
 
