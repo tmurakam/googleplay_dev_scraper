@@ -18,13 +18,14 @@ module GooglePlayScraper
       $dev_acc = nil
 
       @show_details = false
+      @auto_archive = false
     end
 
     def main
       load_config
       parse_arguments
 
-      usage if ARGV.size < 2
+      usage if ARGV.size < 1
 
       setup_scraper
 
@@ -42,6 +43,8 @@ module GooglePlayScraper
         payouts
       when "appstats"
         appstats
+      when "autodeliver"
+        autodeliver
       else
         usage
       end
@@ -66,6 +69,7 @@ module GooglePlayScraper
       STDERR.puts "    order <order_id>           Get order details (in html)"
       STDERR.puts "    payouts <start_date> <end_date> [<type>]      Get payout report"
       STDERR.puts "    appstats <package_name> <startDay> <endDay>   Get app stats (in zip file)"
+      STDERR.puts "    autodeliver [--auto]       Push all deliver buttons"
       exit 1
     end
 
@@ -81,6 +85,7 @@ module GooglePlayScraper
           $proxy_port = a[1]
         }
         opt.on('--details', 'Show detail CSV for order list') {|v| @show_details = true}
+        opt.on('--auto', 'Auto deliver') {|v| @auto_archive = true}
         opt.parse!(ARGV)
       end
     end
@@ -152,7 +157,11 @@ module GooglePlayScraper
       startDay = ARGV[1]
       endDay = ARGV[2]
 
-      puts scraper.getAppStats(package, startDay, endDay)
+      puts @scraper.getAppStats(package, startDay, endDay)
+    end
+
+    def autodeliver
+      @scraper.autoDeliver @auto_archive
     end
   end
 end
