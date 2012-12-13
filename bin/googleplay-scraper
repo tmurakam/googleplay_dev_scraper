@@ -8,6 +8,8 @@
 require 'optparse'
 require 'googleplay-scraper'
 
+Version = GooglePlayScraper::VERSION
+
 module GooglePlayScraper
   class Tool
     def initialize
