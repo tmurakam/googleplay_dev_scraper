@@ -1,16 +1,17 @@
-Google Play / Google Checkout Scraper
-========================================
+Google Play / Google Checkout Scraper for Developers
+====================================================
 
 Introduction
 ============
 
-This tool is designed to download CSV files for Google Play
-from google checkout site automatically.
+This tool is designed to download CSV report files from
+Google Play developer console and google checkout.
 
 It can download following CSV files.
 
-* Sales report (monthly)
-* Order list
+* Sales report (monthly report)
+* Estimateds sales report
+* Order list (almost realtime)
 * Payout report
 
 Also, it can press all "ship" buttons on google checkout.
