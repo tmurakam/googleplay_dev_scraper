@@ -36,6 +36,10 @@ module GooglePlayScraper
         estimated
       when "orders"
         orders
+      when "order"
+        order
+      when "payouts"
+        payouts
       else
         usage
       end
@@ -57,6 +61,8 @@ module GooglePlayScraper
       STDERR.puts "    sales <year> <month>       Get monthly sales report"
       STDERR.puts "    estimated <year> <month>   Get estimated sales report"
       STDERR.puts "    orders [--details] <start_date> <end_date> [<state>]    Get order list"
+      STDERR.puts "    order <order_id>           Get order details (in html)"
+      STDERR.puts "    payouts <start_date> <end_date> [<type>]   Get payout report"
       exit 1
     end
 
@@ -119,6 +125,22 @@ module GooglePlayScraper
       end
 
       puts @scraper.getOrderList(startdate, enddate, state, @show_details)
+    end
+
+    def order
+      orderId = ARGV[0]
+      puts @scraper.getOrderDetail(orderId)
+    end
+
+    def payouts
+      startdate = Date.parse(ARGV[0])
+      enddate = Date.parse(ARGV[1])
+      type = "PAYOUT_REPORT"
+      if (ARGV.size >= 3)
+        type = ARGV[2]
+      end
+
+      puts @scraper.getPayouts(startdate, enddate, type)
     end
   end
 end
