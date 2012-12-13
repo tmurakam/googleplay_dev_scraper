@@ -18,33 +18,46 @@ Also, it can press all "ship" buttons on google checkout.
 You don't need any merchant key, because this tool scrapes
 google checkout website.
 
-Requirements
-============
+Requirements/Installation
+=========================
 
 * Ruby >=1.8.7 or >= 1.9.2
 * RubyGems
-* Bundler
-* Mechanize
 
-If you don't insalled bundler, install it:
+To install:
 
-    $ gem install bundler
+    $ gem install googleplay-scraper
 
-Then install Mechanize:
+Configuration
+=============
 
-    $ bundle install
+Create configuration file with ~/.googleplay-scraper,
+or ./.googleplay-scraper.
 
-Set up
-======
+```
+# GooglePlay scraper config file sample
+#
+# Place this content to your ~/.googleplay-scraper or
+# ./.googleplay-scraper.
+#
+# Warning: This file contains password, be careful
+# of file permission.
 
-Copy config.rb.sample to config.rb and edit it.
+# Your E-mail address to login google play
+$email_address = ""
 
-Copy secrets.rb.sample to secrets.rb, and set up your
-mail address and password, and developer account id.
+# Your password to login google play
+$password = ""
 
-You can find your developer account id in the URL 
-after 'dev_acc=...' when login the developer console.
+# Developer account ID
+# You can find your developer account ID in the URL 
+# after 'dev_acc=...' when login the developer console.
+$dev_acc=""
 
+# Proxy host and port number (if needed) 
+#$proxy_host = nil
+#$proxy_port = -1
+```
 
 How to use
 ==========
@@ -54,22 +67,22 @@ Get sales report
 
 To download sales report for October 2011:
 
-    $ ./get-sales-report.rb 2011 10
+    $ googleplay-scraper sales 2011 10
 
 Or you can download estimated report too:
 
-    $ ./get-estimated-sales-report.rb 2011 10
+    $ googleplay-scraper estimated 2011 10
 
 Get order report
 ----------------
 
 To download order report, specify start and end time as:
 
-    $ ./get-orders.rb 2011-08-01T:00:00:00 2011-09-30T23:59:59
+    $ googleplay-scraper orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
 
 You can use --details option to show expanded csv format.
 
-You can specify 3rd argument from:
+You can specify 4th argument from:
 
 * ALL
 * CANCELLED
@@ -86,7 +99,7 @@ Get payout report
 
 To download payout report, specify start / end date as:
 
-    $ ./get-payouts.rb 2011-11-01 2011-12-01
+    $ googleplay-scraper payouts 2011-11-01 2011-12-01
 
 You can specify 3rd argument from:
 
@@ -100,7 +113,7 @@ Get application satistics
 Export application statistics in CSV format.
 Specify application package name and start/end date.
 
-    $ ./get-app-stats.rb your.package.name 20120101 20120630 > stat.zip
+    $ googleplay-scraper appstats your.package.name 20120101 20120630 > stat.zip
 
 Note: You must redirect output to zip file!
 
@@ -110,15 +123,15 @@ Auto press ship buttons
 
 Press all "ship" buttons on Orders - Inbox page of google checkout:
 
-    $ ./auto-deliver.rb
+    $ googleplay-scraper autodeliver
 
 To archive all orders:
 
-    $ ./auto-deliver.rb -a
+    $ googleplay-scraper --auto autodeliver
 
 Note: This can press buttons ONLY on first page. If you have too 
 many orders on first page, you must archive them manually or
-use '-a' option.
+use '--auto' option.
 
 License
 =======

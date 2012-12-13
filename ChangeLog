@@ -1,5 +1,10 @@
 2012/12/13 : Takuya Murakami
 
+	* Change project name : 'Google Play Scraper'
+	* Support gem
+
+2012/12/13 : Takuya Murakami
+
 	* Use Bundler to install mechanize
 
 2012/07/10 : Takuya Murakami
