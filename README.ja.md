@@ -31,13 +31,13 @@
 
 以下のようにしてインストールします。
 
-    $ gem install googleplay-scraper
+    $ gem install googleplay_scraper
 
 
 設定
 ====
 
-設定ファイルを ~/.googleplay-scraper に作成してください。
+設定ファイルを ~/.googleplay_scraper に作成してください。
 以下にサンプルを示します。
 
 Google Play メールアドレスとパスワード、デベロッパIDを設定してください。
@@ -49,8 +49,8 @@ dev_acc=... の数字です。
 ```
 # GooglePlay scraper config file sample
 #
-# Place this content to your ~/.googleplay-scraper or
-# ./.googleplay-scraper.
+# Place this content to your ~/.googleplay_scraper or
+# ./.googleplay_scraper.
 #
 # Warning: This file contains password, be careful
 # of file permission.
@@ -80,11 +80,11 @@ $dev_acc=""
 2011年10月の売上を取得する場合は以下のようにします。
 結果は標準出力に出力されます。
 
-    $ googleplay-scraper sales 2011 10
+    $ googleplay_scraper sales 2011 10
 
 また推定売上レポートもダウンロードできます。
 
-    $ googleplay-scraper estimated 2011 10
+    $ googleplay_scraper estimated 2011 10
 
 
 オーダー一覧取得
@@ -93,7 +93,7 @@ $dev_acc=""
 オーダーの一覧を取得します。
 開始日時と終了日時を指定します。時刻は日本時間で指定。
 
-    $ googleplay-scraper orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
+    $ googleplay_scraper orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
 
 --details オプションを付与すると詳細な CSV データを出力します。
 
@@ -120,7 +120,7 @@ $dev_acc=""
 Google checkout の支払概要を取得します。
 こちらは開始日と終了日を指定します。
 
-    $ googleplay-scraper payouts 2011-11-01 2011-12-01
+    $ googleplay_scraper payouts 2011-11-01 2011-12-01
 
 第３引数には以下の引数を指定できます。省略時は PAYOUT_REPORT です。
 
@@ -134,7 +134,7 @@ Google checkout の支払概要を取得します。
 Developer Console の統計情報 CSV エクスポートと同じものを得ます。
 対象となるアプリのパッケージ名と、開始日/終了日を指定してください。
 
-    $ googleplay-scraper appstats your.package.name 20120101 20120630 > stat.zip
+    $ googleplay_scraper appstats your.package.name 20120101 20120630 > stat.zip
 
 ZIP ファイルが標準出力に出力されるので、リダイレクトでファイルに
 落としてください。
@@ -146,7 +146,7 @@ ZIP ファイルが標準出力に出力されるので、リダイレクトで�
 注文の受信トレイにある全ての「発送」ボタンを自動で押す機能です。
 使い方は以下のとおり。
 
-    $ googleplay-scraper autodeliver
+    $ googleplay_scraper autodeliver
 
 「アーカイブ」も全部押したい場合は --auto オプションをつけてください。
 
