@@ -134,6 +134,18 @@ Note: This can press buttons ONLY on first page. If you have too
 many orders on first page, you must archive them manually or
 use '--auto' option.
 
+API usage
+=========
+
+Example:
+
+```
+require 'googleplay_scraper'
+
+scraper = GooglePlayScraper::Scraper.new
+csv = scraper.get_sales_report(2012, 11)
+```
+
 License
 =======
 
