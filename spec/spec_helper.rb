@@ -2,3 +2,6 @@
 require 'rubygems'
 require 'googleplay-scraper'
 
+# dummy mechanize agent
+class MechanizeMock < Mechanize
+end

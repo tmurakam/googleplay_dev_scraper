@@ -32,7 +32,9 @@ module GooglePlayScraper
     
     # HTTP proxy port
     attr_accessor :proxy_port
-  
+
+    attr_accessor :agent
+
     def initialize
       @agent = nil
     end
@@ -41,7 +43,9 @@ module GooglePlayScraper
       #Mechanize.log = Logger.new("mechanize.log")
       #Mechanize.log.level = Logger::INFO
 
-      @agent = Mechanize.new
+      unless @agent
+        @agent = Mechanize.new
+      end
       if (@proxy_host && @proxy_host.length >= 1)
         @agent.set_proxy(@proxy_host, @proxy_port)
       end
