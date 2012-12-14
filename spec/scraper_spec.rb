@@ -1,33 +1,12 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-class PageMock
-  def body
-    return "BODY"
-  end
-end
-
 describe GooglePlayScraper::Scraper do
   before do
-    @scraper = GooglePlayScraper::Scraper.new
+    @scraper = ScraperMock.new
 
     @dev_acc = "1234567890"
     @scraper.dev_acc = @dev_acc
-
-    # replace method!
-    def @scraper.try_get(url)
-      setup
-      @accessed_url = url
-
-      def @agent.page
-        page = PageMock.new
-        return page
-      end
-    end
-
-    def @scraper.accessed_url
-      @accessed_url
-    end
   end
 
   context "Setup" do
