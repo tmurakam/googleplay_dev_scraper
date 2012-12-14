@@ -46,14 +46,7 @@ module GooglePlayScraper
     def load_config_file(file)
       open(file) do |f|
         begin
-          h = YAML.load(f.read)
-
-          @email      ||= h['email']
-          @password   ||= h['password']
-          @dev_acc    ||= h['dev_acc']
-          @proxy_host ||= h['proxy_host']
-          @proxy_port ||= h['proxy_port']
-
+          read_config(f.read)
         rescue Psych::SyntaxError => e
           STDERR.puts "Error: configuration file syntax: #{file}"
           exit 1
@@ -61,6 +54,17 @@ module GooglePlayScraper
           STDERR.puts "Error: load configuration file: #{file}"
           exit 1
         end
+      end
+    end
+
+    def read_config(data)
+      h = YAML.load(data)
+      if h
+        @email      ||= h['email']
+        @password   ||= h['password']
+        @dev_acc    ||= h['dev_acc']
+        @proxy_host ||= h['proxy_host']
+        @proxy_port ||= h['proxy_port']
       end
     end
   end
