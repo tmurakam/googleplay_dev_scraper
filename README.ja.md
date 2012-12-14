@@ -37,7 +37,7 @@
 設定
 ====
 
-設定ファイルを ~/.googleplay_scraper に作成してください。
+設定ファイルを ~/.googleplay_scraper に YAML フォーマットで作成してください。
 以下にサンプルを示します。
 
 Google Play メールアドレスとパスワード、デベロッパIDを設定してください。
@@ -47,28 +47,28 @@ Google Play メールアドレスとパスワード、デベロッパIDを設定
 dev_acc=... の数字です。
 
 ```
-# GooglePlay scraper config file sample
+# GooglePlay scraper config file sample (YAML format)
 #
 # Place this content to your ~/.googleplay_scraper or
 # ./.googleplay_scraper.
 #
-# Warning: This file contains password, be careful
+# WARNING: This file contains password, be careful
 # of file permission.
 
 # Your E-mail address to login google play
-$email_address = ""
+email: foo@example.com
 
 # Your password to login google play
-$password = ""
+password: "Your Password"
 
 # Developer account ID
 # You can find your developer account ID in the URL 
 # after 'dev_acc=...' when login the developer console.
-$dev_acc=""
+dev_acc: "12345678901234567890"
 
 # Proxy host and port number (if needed) 
-#$proxy_host = nil
-#$proxy_port = -1
+#proxy_host: proxy.example.com
+#proxy_port: 8080
 ```
 
 使い方

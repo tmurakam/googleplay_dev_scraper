@@ -5,16 +5,13 @@
 # Author:: Takuya Murakami
 # License:: Public domain
 
-require 'rubygems'
-
-gem 'mechanize'#, '1.0.0'
 require 'mechanize'
-
 require 'csv'
+require 'yaml'
 
 module GooglePlayScraper
   #
-  # Google Play and goole checkout scraper
+  # Google Play and google checkout scraper
   #
   class Scraper
     # Google account
@@ -28,7 +25,7 @@ module GooglePlayScraper
 
     # HTTP proxy host
     attr_accessor :proxy_host
-    
+
     # HTTP proxy port
     attr_accessor :proxy_port
 
@@ -36,8 +33,39 @@ module GooglePlayScraper
 
     def initialize
       @agent = nil
+      @dev_acc = nil
     end
-  
+
+    def load_config_file(path = nil)
+      config_files = [ENV['HOME'] + "/.googleplay_scraper", ".googleplay_scraper"]
+      if path
+        config_files = [ path ]
+      end
+
+      config_files.each do |file|
+        if file && File.exists?(file)
+          open(file) do |f|
+            begin
+              h = YAML.load(f.read)
+
+              @email = h['email'] if h.has_key?('email')
+              @password = h['password'] if h.has_key?('password')
+              @dev_acc = h['dev_acc'] if h.has_key?('dev_acc')
+              @proxy_host = h['proxy_host'] if h.has_key?('proxy_host')
+              @proxy_port = h['proxy_port'] if h.has_key?('proxy_port')
+
+            rescue Psych::SyntaxError => e
+              STDERR.puts "Error: configuration file syntax: #{file}"
+              exit 1
+            rescue
+              STDERR.puts "Error: load configuration file: #{file}"
+              exit 1
+            end
+          end
+        end
+      end
+    end
+
     def setup
       #Mechanize.log = Logger.new("mechanize.log")
       #Mechanize.log.level = Logger::INFO
@@ -45,7 +73,7 @@ module GooglePlayScraper
       unless @agent
         @agent = Mechanize.new
       end
-      if (@proxy_host && @proxy_host.length >= 1)
+      if @proxy_host && @proxy_host.length >= 1
         @agent.set_proxy(@proxy_host, @proxy_port)
       end
     end
@@ -59,22 +87,21 @@ module GooglePlayScraper
       @agent.get(url)
 
       # login needed?
-      if (@agent.page.uri.host != "accounts.google.com" ||
-          @agent.page.uri.path != "/ServiceLogin")
-        # already logined
+      if @agent.page.uri.host != "accounts.google.com" || @agent.page.uri.path != "/ServiceLogin"
+        # already login-ed
         return
       end
 
       # do login
       form = @agent.page.forms.find {|f| f.form_node['id'] == "gaia_loginform"}
-      if (!form)
+      unless form
         raise 'No login form'
       end
       form.field_with(:name => "Email").value = @email
       form.field_with(:name => "Passwd").value = @password
       form.click_button
 
-      if (@agent.page.uri.host == "accounts.google.com")
+      if @agent.page.uri.host == "accounts.google.com"
         STDERR.puts "login failed? : uri = " + @agent.page.uri.to_s
         raise 'Google login failed'
       end
@@ -95,9 +122,10 @@ module GooglePlayScraper
       #url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
       url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @dev_acc)
       try_get(url)
-      return @agent.page.body.force_encoding("UTF-8")
+
+      @agent.page.body.force_encoding("UTF-8")
     end
-    
+
     # Get estimated sales report
     #
     # [year]
@@ -110,7 +138,8 @@ module GooglePlayScraper
     def get_estimated_sales_report(year, month)
       url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @dev_acc)
       try_get(url)
-      return @agent.page.body.force_encoding("UTF-8")
+
+      @agent.page.body.force_encoding("UTF-8")
     end
 
     # Get order list
@@ -134,12 +163,12 @@ module GooglePlayScraper
       @agent.page.form_with(:name => "dateInput") do |form|
         form["start-date"] = start_date
         form["end-date"] = end_date
-        if (state == "ALL")
+        if state == "ALL"
           form.delete_field!("financial-state")
         else
           form["financial-state"] = state
         end
-        if (expanded)
+        if expanded
           form["column-style"] = "EXPANDED"
         end
         #form["date-time-zone"] = "Asia/Tokyo"
@@ -148,10 +177,10 @@ module GooglePlayScraper
         form.click_button
       end
 
-      return @agent.page.body.force_encoding("UTF-8")
+      @agent.page.body.force_encoding("UTF-8")
     end
 
-    
+
     # Get payout report
     #
     # [start_day]
@@ -175,18 +204,19 @@ module GooglePlayScraper
         form.click_button
       end
 
-      return @agent.page.body.force_encoding("UTF-8")
+      @agent.page.body.force_encoding("UTF-8")
     end
 
 
     # Get order details page
-    # [orderId]
+    # [order_id]
     #   google order ID
     # [Return]
     #   CSV string
-    def get_order_detail(orderId)
-      try_get("https://checkout.google.com/sell/multiOrder?order=#{orderId}&ordersTable=1")
-      return @agent.page.body.force_encoding("UTF-8")
+    def get_order_detail(order_id)
+      try_get("https://checkout.google.com/sell/multiOrder?order=#{order_id}&ordersTable=1")
+
+      @agent.page.body.force_encoding("UTF-8")
     end
 
     # Get application statistics CSV in zip
@@ -207,11 +237,11 @@ module GooglePlayScraper
       url += "?package=#{package}"
       url += "&sd=#{start_day}&ed=#{end_day}"
       url += "&dim=#{dim}"
-      url += "&dev_acc=#{@dev_acc}"
+      url += "&dev_acc=#@dev_acc"
 
       puts url
       try_get(url)
-      return @agent.page.body
+      @agent.page.body
     end
 
     # Push all deliver buttons
@@ -224,27 +254,27 @@ module GooglePlayScraper
       more_buttons = true
 
       # 押すべきボタンがなくなるまで、ボタンを押し続ける
-      while(more_buttons)
+      while more_buttons
         more_buttons = false
 
         @agent.page.forms.each do |form|
           order_id = nil
           order_field = form.field_with(:name => "OrderSelection")
-          if (order_field)
+          if order_field
             order_id = order_field.value
           end
 
           button = form.button_with(:name => "closeOrderButton")
-          if (button)
+          if button
             puts "Deliver : #{order_id}"
-          elsif (auto_archive)
+          elsif auto_archive
             button = form.button_with(:name => "archiveButton")
-            if (button)
+            if button
               puts "Archive : #{order_id}"
             end
           end
 
-          if (button)
+          if button
             form.click_button(button)
             more_buttons = true
             break
@@ -254,10 +284,10 @@ module GooglePlayScraper
     end
 
     # dump CSV (util)
-    def dumpCsv(csv_string)
+    def dump_csv(csv_string)
       headers = nil
       CSV.parse(csv_string) do |row|
-        if (!headers)
+        unless headers
           headers = row
           next
         end
