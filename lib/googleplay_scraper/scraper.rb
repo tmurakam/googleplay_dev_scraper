@@ -14,56 +14,12 @@ module GooglePlayScraper
   # Google Play and google checkout scraper
   #
   class Scraper
-    # Google account
-    attr_accessor :email
-
-    # Password to login google account
-    attr_accessor :password
-
-    # developer account ID
-    attr_accessor :dev_acc
-
-    # HTTP proxy host
-    attr_accessor :proxy_host
-
-    # HTTP proxy port
-    attr_accessor :proxy_port
-
     attr_accessor :agent
+    attr_accessor :config
 
     def initialize
       @agent = nil
-      @dev_acc = nil
-    end
-
-    def load_config_file(path = nil)
-      config_files = [ENV['HOME'] + "/.googleplay_scraper", ".googleplay_scraper"]
-      if path
-        config_files = [ path ]
-      end
-
-      config_files.each do |file|
-        if file && File.exists?(file)
-          open(file) do |f|
-            begin
-              h = YAML.load(f.read)
-
-              @email = h['email'] if h.has_key?('email')
-              @password = h['password'] if h.has_key?('password')
-              @dev_acc = h['dev_acc'] if h.has_key?('dev_acc')
-              @proxy_host = h['proxy_host'] if h.has_key?('proxy_host')
-              @proxy_port = h['proxy_port'] if h.has_key?('proxy_port')
-
-            rescue Psych::SyntaxError => e
-              STDERR.puts "Error: configuration file syntax: #{file}"
-              exit 1
-            rescue
-              STDERR.puts "Error: load configuration file: #{file}"
-              exit 1
-            end
-          end
-        end
-      end
+      @config = ScraperConfig.new
     end
 
     def setup
@@ -73,8 +29,8 @@ module GooglePlayScraper
       unless @agent
         @agent = Mechanize.new
       end
-      if @proxy_host && @proxy_host.length >= 1
-        @agent.set_proxy(@proxy_host, @proxy_port)
+      if @config.proxy_host && @config.proxy_host.length >= 1
+        @agent.set_proxy(@config.proxy_host, @config.proxy_port)
       end
     end
 
@@ -97,8 +53,8 @@ module GooglePlayScraper
       unless form
         raise 'No login form'
       end
-      form.field_with(:name => "Email").value = @email
-      form.field_with(:name => "Passwd").value = @password
+      form.field_with(:name => "Email").value = @config.email
+      form.field_with(:name => "Passwd").value = @config.password
       form.click_button
 
       if @agent.page.uri.host == "accounts.google.com"
@@ -120,7 +76,7 @@ module GooglePlayScraper
     #
     def get_sales_report(year, month)
       #url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
-      url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @dev_acc)
+      url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @config.dev_acc)
       try_get(url)
 
       @agent.page.body.force_encoding("UTF-8")
@@ -136,7 +92,7 @@ module GooglePlayScraper
     #   CSV string
     #
     def get_estimated_sales_report(year, month)
-      url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @dev_acc)
+      url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @config.dev_acc)
       try_get(url)
 
       @agent.page.body.force_encoding("UTF-8")
@@ -237,7 +193,7 @@ module GooglePlayScraper
       url += "?package=#{package}"
       url += "&sd=#{start_day}&ed=#{end_day}"
       url += "&dim=#{dim}"
-      url += "&dev_acc=#@dev_acc"
+      url += "&dev_acc=#{@config.dev_acc}"
 
       puts url
       try_get(url)

@@ -15,18 +15,12 @@ module GooglePlayScraper
     def initialize
       @scraper = Scraper.new
 
-      $proxy_host = nil
-      $proxy_port = nil
-      $email_address = nil
-      $password = nil
-      $dev_acc = nil
-
       @show_details = false
       @auto_archive = false
     end
 
     def main
-      @scraper.load_config_file
+      @scraper.config.load_config_file
       parse_arguments
 
       usage if ARGV.size < 1
@@ -67,15 +61,17 @@ module GooglePlayScraper
     end
 
     def parse_arguments
+      config = @scraper.config
+
       opts = OptionParser.new do |opt|
-        opt.on('-u email', 'set email address') {|v| @scraper.email = v}
-        opt.on('-p password', 'set password') {|v| @scraper.password = v}
-        opt.on('-a dev_acc', 'set dev_acc') {|v| @scraper.dev_acc = v}
+        opt.on('-u email', 'set email address') {|v| config.email = v}
+        opt.on('-p password', 'set password') {|v| config.password = v}
+        opt.on('-a dev_acc', 'set dev_acc') {|v| config.dev_acc = v}
 
         opt.on('-P host:port', 'Set HTTP proxy/port') {|v|
           a = v.split(/:/)
-          @scraper.proxy_host = a[0]
-          @scraper.proxy_port = a[1]
+          config.proxy_host = a[0]
+          config.proxy_port = a[1]
         }
         opt.on('--details', 'Show detail CSV for order list') {|v| @show_details = true}
         opt.on('--auto', 'Auto deliver') {|v| @auto_archive = true}

@@ -145,9 +145,9 @@ require 'googleplay_scraper'
 scraper = GooglePlayScraper::Scraper.new
 
 # set config (Note: config file is not read via API access)
-scraper.email = "foo@example.com"
-scraper.password = "YOUR_PASSWORD"
-scraper.dev_acc = "1234567890"
+scraper.config.email = "foo@example.com"
+scraper.config.password = "YOUR_PASSWORD"
+scraper.config.dev_acc = "1234567890"
 
 # get sales report / estimated sales report
 puts scraper.get_sales_report(2012, 11)

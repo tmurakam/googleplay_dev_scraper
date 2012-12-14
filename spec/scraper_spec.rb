@@ -6,7 +6,7 @@ describe GooglePlayScraper::Scraper do
     @scraper = ScraperMock.new
 
     @dev_acc = "1234567890"
-    @scraper.dev_acc = @dev_acc
+    @scraper.config.dev_acc = @dev_acc
   end
 
   context "Setup" do
@@ -18,8 +18,8 @@ describe GooglePlayScraper::Scraper do
     end
 
     it "setup with proxy" do
-      @scraper.proxy_host = "proxy.example.com"
-      @scraper.proxy_port = 12345
+      @scraper.config.proxy_host = "proxy.example.com"
+      @scraper.config.proxy_port = 12345
 
       @scraper.setup
 

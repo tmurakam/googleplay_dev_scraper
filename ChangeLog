@@ -1,7 +1,8 @@
 2012/12/13 : Takuya Murakami
 
-	* ver 0.2.0
+	* ver 0.2.1
 	* Use YAML for configuration file format.
+	* Refactoring
 
 2012/12/13 : Takuya Murakami
 
