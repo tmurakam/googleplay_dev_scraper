@@ -37,4 +37,30 @@ EOF
       @config.proxy_port.should == "PROXY_PORT"
     end
   end
+
+  context "load_config" do
+    before do 
+      # make mock
+      def @config.load_config_file(file)
+        @config_files ||= Array.new
+        @config_files.push(file)
+      end
+
+      def @config.config_files
+        @config_files
+      end
+    end
+
+    it "without path" do
+      @config.load_config
+      a = @config.config_files.should ==
+        [ nil, ".googleplay_scraper", ENV['HOME'] + "/.googleplay_scraper"]
+    end
+
+    it "with path" do
+      @config.load_config("/some/path")
+      a = @config.config_files.should ==
+        [ "/some/path", ".googleplay_scraper", ENV['HOME'] + "/.googleplay_scraper"]
+    end
+  end
 end

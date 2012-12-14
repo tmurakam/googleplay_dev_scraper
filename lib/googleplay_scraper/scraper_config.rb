@@ -37,22 +37,22 @@ module GooglePlayScraper
       config_files = [ path, ".googleplay_scraper", "#{ENV['HOME']}/.googleplay_scraper" ]
 
       config_files.each do |file|
-        if file && File.exists?(file)
-          load_config_file(file)
-        end
+        load_config_file(file)
       end
     end
 
     def load_config_file(file)
-      open(file) do |f|
-        begin
-          read_config(f.read)
-        rescue Psych::SyntaxError => e
-          STDERR.puts "Error: configuration file syntax: #{file}"
-          exit 1
-        rescue
-          STDERR.puts "Error: load configuration file: #{file}"
-          exit 1
+      if file && File.exists?(file)
+        open(file) do |f|
+          begin
+            read_config(f.read)
+          rescue Psych::SyntaxError => e
+            STDERR.puts "Error: configuration file syntax: #{file}"
+            exit 1
+          rescue
+            STDERR.puts "Error: load configuration file: #{file}"
+            exit 1
+          end
         end
       end
     end
