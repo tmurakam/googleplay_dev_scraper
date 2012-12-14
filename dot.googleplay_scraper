@@ -1,23 +1,24 @@
-# GooglePlay scraper config file sample
+# GooglePlay scraper config file sample (YAML format)
 #
 # Place this content to your ~/.googleplay_scraper or
 # ./.googleplay_scraper.
 #
-# Warning: This file contains password, be careful
+# WARNING: This file contains password, be careful
 # of file permission.
 
 # Your E-mail address to login google play
-$email_address = ""
+email_address: foo@example.com
 
 # Your password to login google play
-$password = ""
+password: "Your Password"
 
 # Developer account ID
 # You can find your developer account ID in the URL 
 # after 'dev_acc=...' when login the developer console.
-$dev_acc=""
+dev_acc: "1234567890"
 
 # Proxy host and port number (if needed) 
-#$proxy_host = nil
-#$proxy_port = -1
+#proxy_host: proxy.example.com
+#proxy_port: 8080
+
 

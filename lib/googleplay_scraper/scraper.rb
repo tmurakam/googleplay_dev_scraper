@@ -48,11 +48,11 @@ module GooglePlayScraper
             begin
               h = YAML.load(f.read)
 
-              @email = defs['email_address'] if h.has_key?('email_address')
-              @password = defs['password'] if h.has_key?('password')
-              @dev_acc = defs['dev_acc'] if h.has_key?('dev_acc')
-              @proxy_host = defs['proxy_host'] if h.has_key?('proxy_host')
-              @proxy_port = defs['proxy_port'] if h.has_key?('proxy_port')
+              @email = h['email'] if h.has_key?('email')
+              @password = h['password'] if h.has_key?('password')
+              @dev_acc = h['dev_acc'] if h.has_key?('dev_acc')
+              @proxy_host = h['proxy_host'] if h.has_key?('proxy_host')
+              @proxy_port = h['proxy_port'] if h.has_key?('proxy_port')
 
             rescue Psych::SyntaxError => e
               STDERR.puts "Error: configuration file syntax: #{file}"
