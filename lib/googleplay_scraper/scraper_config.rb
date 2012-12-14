@@ -33,29 +33,33 @@ module GooglePlayScraper
       @dev_acc = nil
     end
 
-    def load_config_file(path = nil)
+    def load_config(path = nil)
       config_files = [ path, ".googleplay_scraper", "#{ENV['HOME']}/.googleplay_scraper" ]
 
       config_files.each do |file|
         if file && File.exists?(file)
-          open(file) do |f|
-            begin
-              h = YAML.load(f.read)
+          load_config_file(file)
+        end
+      end
+    end
 
-              @email      ||= h['email']
-              @password   ||= h['password']
-              @dev_acc    ||= h['dev_acc']
-              @proxy_host ||= h['proxy_host']
-              @proxy_port ||= h['proxy_port']
+    def load_config_file(file)
+      open(file) do |f|
+        begin
+          h = YAML.load(f.read)
 
-            rescue Psych::SyntaxError => e
-              STDERR.puts "Error: configuration file syntax: #{file}"
-              exit 1
-            rescue
-              STDERR.puts "Error: load configuration file: #{file}"
-              exit 1
-            end
-          end
+          @email      ||= h['email']
+          @password   ||= h['password']
+          @dev_acc    ||= h['dev_acc']
+          @proxy_host ||= h['proxy_host']
+          @proxy_port ||= h['proxy_port']
+
+        rescue Psych::SyntaxError => e
+          STDERR.puts "Error: configuration file syntax: #{file}"
+          exit 1
+        rescue
+          STDERR.puts "Error: load configuration file: #{file}"
+          exit 1
         end
       end
     end
