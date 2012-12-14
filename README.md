@@ -45,7 +45,7 @@ or ./.googleplay_scraper in YAML format.
 # of file permission.
 
 # Your E-mail address to login google play
-email_address: foo@example.com
+email: foo@example.com
 
 # Your password to login google play
 password: "Your Password"
@@ -53,7 +53,7 @@ password: "Your Password"
 # Developer account ID
 # You can find your developer account ID in the URL 
 # after 'dev_acc=...' when login the developer console.
-dev_acc: "1234567890"
+dev_acc: "12345678901234567890"
 
 # Proxy host and port number (if needed) 
 #proxy_host: proxy.example.com
