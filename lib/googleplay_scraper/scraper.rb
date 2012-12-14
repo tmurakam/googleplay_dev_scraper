@@ -7,6 +7,7 @@
 
 require 'mechanize'
 require 'csv'
+require 'yaml'
 
 module GooglePlayScraper
   #
@@ -36,22 +37,31 @@ module GooglePlayScraper
     end
 
     def load_config_file(path = nil)
-      config_files = [".googleplay_scraper", ENV['HOME'] + "/.googleplay_scraper"]
+      config_files = [ENV['HOME'] + "/.googleplay_scraper", ".googleplay_scraper"]
       if path
         config_files = [ path ]
       end
 
       config_files.each do |file|
         if file && File.exists?(file)
-          load file
-          @proxy_host = $proxy_host if $proxy_host
-          @proxy_port = $proxy_port if $proxy_port
+          open(file) do |f|
+            begin
+              h = YAML.load(f.read)
 
-          @email = $email_address if $email_address
+              @email = defs['email_address'] if h.has_key?('email_address')
+              @password = defs['password'] if h.has_key?('password')
+              @dev_acc = defs['dev_acc'] if h.has_key?('dev_acc')
+              @proxy_host = defs['proxy_host'] if h.has_key?('proxy_host')
+              @proxy_port = defs['proxy_port'] if h.has_key?('proxy_port')
 
-          @password = $password if $password
-          @dev_acc = $dev_acc if $dev_acc
-          break
+            rescue Psych::SyntaxError => e
+              STDERR.puts "Error: configuration file syntax: #{file}"
+              exit 1
+            rescue
+              STDERR.puts "Error: load configuration file: #{file}"
+              exit 1
+            end
+          end
         end
       end
     end
