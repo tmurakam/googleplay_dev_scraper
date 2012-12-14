@@ -60,6 +60,9 @@ dev_acc: "12345678901234567890"
 #proxy_port: 8080
 ```
 
+You can specify configuration parameters with command line
+options. See details with --help option.
+
 How to use
 ==========
 
@@ -83,6 +86,8 @@ To download order report, specify start and end time as:
 
 You can use --details option to show expanded csv format.
 
+    $ googleplay_scraper --details orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
+
 You can specify 4th argument from:
 
 * ALL
@@ -102,7 +107,7 @@ To download payout report, specify start / end date as:
 
     $ googleplay_scraper payouts 2011-11-01 2011-12-01
 
-You can specify 3rd argument from:
+You can specify 4th argument from:
 
 * PAYOUT_REPORT
 * TRANSACTION_DETAIL_REPORT
