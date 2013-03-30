@@ -19,7 +19,11 @@ module GooglePlayScraper
       super
     end
 
-    # Get sales report
+    def body_string
+      @agent.page.body.force_encoding("UTF-8")
+    end
+
+    # Get sales report (report_type = payout_report)
     # [year]
     #   Year (ex. 2012)
     # [month]
@@ -28,14 +32,14 @@ module GooglePlayScraper
     #   CSV string
     #
     def get_sales_report(year, month)
-      #url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
-      url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @config.dev_acc)
+      #url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @config.dev_acc)
+      url = sprintf('https://play.google.com/apps/publish/v2/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @config.dev_acc)
       try_get(url)
 
-      @agent.page.body.force_encoding("UTF-8")
+      body_string
     end
 
-    # Get estimated sales report
+    # Get estimated sales report (report_type = sales_report)
     #
     # [year]
     #   Year (ex. 2012)
@@ -45,10 +49,11 @@ module GooglePlayScraper
     #   CSV string
     #
     def get_estimated_sales_report(year, month)
-      url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @config.dev_acc)
+      #https://play.google.com/apps/publish/v2/salesreport/download?report_date=2013_03&report_type=sales_report&dev_acc=09924472108471074593
+      url = sprintf('https://play.google.com/apps/publish/v2/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @config.dev_acc)
       try_get(url)
 
-      @agent.page.body.force_encoding("UTF-8")
+      body_string
     end
 
     # Get order list
@@ -86,7 +91,7 @@ module GooglePlayScraper
         form.click_button
       end
 
-      @agent.page.body.force_encoding("UTF-8")
+      body_string
     end
 
 
@@ -113,7 +118,7 @@ module GooglePlayScraper
         form.click_button
       end
 
-      @agent.page.body.force_encoding("UTF-8")
+      body_string
     end
 
 
@@ -125,7 +130,7 @@ module GooglePlayScraper
     def get_order_detail(order_id)
       try_get("https://checkout.google.com/sell/multiOrder?order=#{order_id}&ordersTable=1")
 
-      @agent.page.body.force_encoding("UTF-8")
+      body_string
     end
 
     # Get application statistics CSV in zip
@@ -147,7 +152,7 @@ module GooglePlayScraper
       url += "&dim=#{dim}"
       #url += "&dev_acc=#{@config.dev_acc}"
 
-      puts url
+      STDERR.puts "URL = #{url}"
       try_get(url)
       @agent.page.body
     end

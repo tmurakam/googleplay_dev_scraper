@@ -31,7 +31,7 @@ describe GooglePlayScraper::Scraper do
   context "get sales report" do
     it "normal access" do
       @scraper.get_sales_report(2012, 11)
-      @scraper.accessed_url.should == "https://play.google.com/apps/publish/salesreport/download?report_date=2012_11&report_type=payout_report&dev_acc=#{@dev_acc}"
+      @scraper.accessed_url.should == "https://play.google.com/apps/publish/v2/salesreport/download?report_date=2012_11&report_type=payout_report&dev_acc=#{@dev_acc}"
     end
   end
   

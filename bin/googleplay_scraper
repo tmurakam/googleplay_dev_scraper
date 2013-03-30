@@ -20,7 +20,7 @@ module GooglePlayScraper
     end
 
     def main
-      @scraper.config.load_config_file
+      @scraper.config.load_config
       parse_arguments
 
       usage if ARGV.size < 1
