@@ -152,7 +152,7 @@ module GooglePlayScraper
       url += "&dim=#{dim}"
       #url += "&dev_acc=#{@config.dev_acc}"
 
-      puts url
+      STDERR.puts "URL = #{url}"
       try_get(url)
       @agent.page.body
     end
