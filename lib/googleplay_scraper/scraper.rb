@@ -23,7 +23,7 @@ module GooglePlayScraper
       @agent.page.body.force_encoding("UTF-8")
     end
 
-    # Get sales report
+    # Get sales report (report_type = payout_report)
     # [year]
     #   Year (ex. 2012)
     # [month]
@@ -32,14 +32,14 @@ module GooglePlayScraper
     #   CSV string
     #
     def get_sales_report(year, month)
-      #url = sprintf('https://market.android.com/publish/salesreport/download?report_date=%04d_%02d', year, month)
-      url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @config.dev_acc)
+      #url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @config.dev_acc)
+      url = sprintf('https://play.google.com/apps/publish/v2/salesreport/download?report_date=%04d_%02d&report_type=payout_report&dev_acc=%s', year, month, @config.dev_acc)
       try_get(url)
 
       body_string
     end
 
-    # Get estimated sales report
+    # Get estimated sales report (report_type = sales_report)
     #
     # [year]
     #   Year (ex. 2012)
@@ -49,7 +49,8 @@ module GooglePlayScraper
     #   CSV string
     #
     def get_estimated_sales_report(year, month)
-      url = sprintf('https://play.google.com/apps/publish/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @config.dev_acc)
+      #https://play.google.com/apps/publish/v2/salesreport/download?report_date=2013_03&report_type=sales_report&dev_acc=09924472108471074593
+      url = sprintf('https://play.google.com/apps/publish/v2/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @config.dev_acc)
       try_get(url)
 
       body_string
