@@ -192,9 +192,9 @@ module GooglePlayScraper
     end
 
     #
-    # Get order list html page (testing)
+    # Get order list from wallet html page
     #
-    def get_orders_html
+    def get_wallet_orders
       try_get("https://wallet.google.com/merchant/pages/")
       html = body_string
 
@@ -202,27 +202,34 @@ module GooglePlayScraper
 
       #doc.xpath("//table[@id='purchaseOrderListTable']")
 
+      result = ""
+
       doc.xpath("//tr[@class='orderRow']").each do |e|
         order_id = e['id']
-        puts order_id
+
+        date = nil
+        desc = nil
+        total = nil
+        status = nil
 
         e.children.each do |e2|
           case e2['class']
           when /wallet-date-column/
-            puts "date: " + e2.content
+            date = e2.content
           when /wallet-description-column/
-            puts "desc: " + e2.content
+            desc = e2.content
           when /wallet-total-column/
-            puts "total: " + e2.content
+            total = e2.content
           when /wallet-status-column/
             e3 = e2.children.first
-            puts "status: " + e3['title']
+            status = e3['title'] unless e3.nil?
           end
         end
 
-        puts
+        result += [order_id, date, desc, status, total].join(",") + "\n"
       end
-      nil
+
+      result
     end
   end
 end

@@ -33,8 +33,6 @@ module GooglePlayScraper
         estimated
       when "orders"
         orders
-      when "orders-html"
-        orders_html
       when "order"
         order
       when "payouts"
@@ -43,6 +41,8 @@ module GooglePlayScraper
         appstats
       when "autodeliver"
         autodeliver
+      when "wallet_orders"
+        wallet_orders
       else
         usage
       end
@@ -113,8 +113,8 @@ module GooglePlayScraper
       puts @scraper.get_order_list(startdate, enddate) #, state, @show_details)
     end
 
-    def orders_html
-      puts @scraper.get_orders_html
+    def wallet_orders
+      puts @scraper.get_wallet_orders
     end
 
     def order
