@@ -33,6 +33,8 @@ module GooglePlayScraper
         estimated
       when "orders"
         orders
+      when "orders-html"
+        orders_html
       when "order"
         order
       when "payouts"
@@ -109,6 +111,10 @@ module GooglePlayScraper
       end
 
       puts @scraper.get_order_list(startdate, enddate) #, state, @show_details)
+    end
+
+    def orders_html
+      puts @scraper.get_orders_html
     end
 
     def order

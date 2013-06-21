@@ -72,6 +72,13 @@ module GooglePlayScraper
       body_string
     end
 
+    #
+    # Get order list html page (testing)
+    #
+    def get_orders_html
+      try_get("https://wallet.google.com/merchant/pages/")
+      body_string
+    end
 
     # Get payout report
     #
