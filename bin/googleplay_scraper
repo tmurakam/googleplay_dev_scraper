@@ -108,7 +108,7 @@ module GooglePlayScraper
         state = ARGV[2]
       end
 
-      puts @scraper.get_order_list(startdate, enddate, state, @show_details)
+      puts @scraper.get_order_list(startdate, enddate) #, state, @show_details)
     end
 
     def order

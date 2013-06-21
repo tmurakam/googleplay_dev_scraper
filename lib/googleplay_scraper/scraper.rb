@@ -59,38 +59,16 @@ module GooglePlayScraper
     # Get order list
     #
     # [start_date]
-    #   start date (yyyy-MM-ddThh:mm:ss)
+    #   start date (MM/dd/yyyy)
     # [end_date]
-    #   end date (yyyy-MM-ddThh:mm:ss)
-    # [state]
-    #   financial state, one of followings:
-    #   ALL, CANCELLED, CANCELLED_BY_GOOGLE, CHARGEABLE, CHARGED,
-    #   CHARGING, PAYMENT_DECLINED, REVIEWING
-    # [expanded]
-    #   true - expanded list, false - normal list
+    #   end date (MM/dd/yyyy)
     # [Return]
     #   CSV string
-    def get_order_list(start_date, end_date, state = "CHARGED", expanded = false)
+    def get_order_list(start_date, end_date)
 
-      try_get("https://checkout.google.com/sell/orders")
-
-      @agent.page.form_with(:name => "dateInput") do |form|
-        form["start-date"] = start_date
-        form["end-date"] = end_date
-        if state == "ALL"
-          form.delete_field!("financial-state")
-        else
-          form["financial-state"] = state
-        end
-        if expanded
-          form["column-style"] = "EXPANDED"
-        end
-        #form["date-time-zone"] = "Asia/Tokyo"
-        #form["_type"] = "order-list-request"
-        #form["query-type"] = ""
-        form.click_button
-      end
-
+      try_get("https://wallet.google.com/merchant/pages/" +
+              @config.bcid + "/" + @config.oid + "/" + @config.cid +
+              "/purchaseorderdownload?startTime=1370012400000&endTime=1370185200000")
       body_string
     end
 
