@@ -72,14 +72,6 @@ module GooglePlayScraper
       body_string
     end
 
-    #
-    # Get order list html page (testing)
-    #
-    def get_orders_html
-      try_get("https://wallet.google.com/merchant/pages/")
-      body_string
-    end
-
     # Get payout report
     #
     # [start_day]
@@ -197,6 +189,40 @@ module GooglePlayScraper
         end
         puts
       end
+    end
+
+    #
+    # Get order list html page (testing)
+    #
+    def get_orders_html
+      try_get("https://wallet.google.com/merchant/pages/")
+      html = body_string
+
+      doc = Nokogiri::HTML(html)
+
+      #doc.xpath("//table[@id='purchaseOrderListTable']")
+
+      doc.xpath("//tr[@class='orderRow']").each do |e|
+        order_id = e['id']
+        puts order_id
+
+        e.children.each do |e2|
+          case e2['class']
+          when /wallet-date-column/
+            puts "date: " + e2.content
+          when /wallet-description-column/
+            puts "desc: " + e2.content
+          when /wallet-total-column/
+            puts "total: " + e2.content
+          when /wallet-status-column/
+            e3 = e2.children.first
+            puts "status: " + e3['title']
+          end
+        end
+
+        puts
+      end
+      nil
     end
   end
 end
