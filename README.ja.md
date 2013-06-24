@@ -9,11 +9,18 @@
 レポート CSV ファイルを自動でダウンロードするための
 ツールです。
 
-ダウンロードできるのは以下の２通りです。
+Google Play デベロッパーコンソールからは以下のものを
+ダウンロードできます。
 
-* Google Play のデベロッパーコンソールで提供される販売レポート
-* Google Checkout で提供される注文リスト
-* 売上管理の支払概要
+* 販売レポート
+* 予想販売レポート
+
+Google Checkout からは以下のものをダウンロードできます。
+ただし、Google Wallet Merchant Center にアカウントが移行
+した場合はこれらはダウンロードできません。
+
+* 注文リスト
+* 支払概要
 
 売上の集計をするなり、経理システムにぶち込むなり、お好きに
 どうぞ。
@@ -220,5 +227,5 @@ Public domain 扱いとします。
 * Google さん、Android 向けの Google Checkout API 解放してくれるとすごく嬉しいのですが、、、
 
 ---
-'12/12/13
+'13/6/24
 Takuya Murakami, E-mail: tmurakam at tmurakam.org

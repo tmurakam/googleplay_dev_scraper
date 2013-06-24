@@ -7,10 +7,16 @@ Introduction
 This tool is designed to download CSV report files from
 Google Play developer console and google checkout.
 
-It can download following CSV files.
+It can download following CSV files from Google Play 
+developer console
 
 * Sales report (monthly report)
 * Estimateds sales report
+
+It can download following CSV files from Google Checkout.
+(Note: You can't do it if your account has been migrated
+to google wallet.)
+
 * Order list (almost realtime)
 * Payout report
 
@@ -177,5 +183,5 @@ Disclaimer
 * NO WARRANTY
 
 ---
-'12/12/13
+'13/6/24
 Takuya Murakami, E-mail: tmurakam at tmurakam.org
