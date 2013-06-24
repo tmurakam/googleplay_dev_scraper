@@ -14,6 +14,7 @@ Google Play デベロッパーコンソールからは以下のものを
 
 * 販売レポート
 * 予想販売レポート
+* アプリ統計情報
 
 Google Checkout からは以下のものをダウンロードできます。
 ただし、Google Wallet Merchant Center にアカウントが移行

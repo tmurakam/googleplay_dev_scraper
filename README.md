@@ -12,6 +12,7 @@ developer console
 
 * Sales report (monthly report)
 * Estimateds sales report
+* Application statistics
 
 It can download following CSV files from Google Checkout.
 (Note: You can't do it if your account has been migrated
@@ -119,8 +120,8 @@ You can specify 4th argument from:
 * TRANSACTION_DETAIL_REPORT
 
 
-Get application satistics
--------------------------
+Get application statistics
+--------------------------
 
 Export application statistics in CSV format.
 Specify application package name and start/end date.
