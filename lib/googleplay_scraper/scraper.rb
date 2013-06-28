@@ -65,11 +65,18 @@ module GooglePlayScraper
     # [Return]
     #   CSV string
     def get_order_list(start_date, end_date)
+      
+      try_get("https://wallet.google.com/merchant/pages/")
+      if @agent.page.uri.path =~ /(bcid-[^\/]+)\/(oid-[^\/]+)\/(cid-[^\/]+)\//
+        bcid = $1
+        oid = $2
+        cid = $3
 
-      try_get("https://wallet.google.com/merchant/pages/" +
-              @config.bcid + "/" + @config.oid + "/" + @config.cid +
-              "/purchaseorderdownload?startTime=1370012400000&endTime=1370185200000")
-      body_string
+        try_get("https://wallet.google.com/merchant/pages/" +
+                bcid + "/" + oid + "/" + cid +
+                "/purchaseorderdownload?startTime=1370012400000&endTime=1370185200000")
+        body_string
+      end
     end
 
     # Get payout report
