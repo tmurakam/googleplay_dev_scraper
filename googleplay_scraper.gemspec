@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["tmurakam@tmurakam.org"]
   gem.description   = %q{Scraping and download CSV data from Google Play developer console and Google Wallet.}
   gem.summary       = %q{Scraper for Google Play developer console and Google wallet}
-  gem.homepage      = "https://github.com/tmurakam/googleplay-scraper"
+  gem.homepage      = "https://github.com/tmurakam/googleplay_scraper"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
