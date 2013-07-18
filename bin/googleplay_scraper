@@ -46,9 +46,9 @@ module GooglePlayScraper
       STDERR.puts "Usage: #{$0} [options] command [arguments...]"
       STDERR.puts "       #{$0} --help"
       STDERR.puts "  Commands:"
-      STDERR.puts "    sales <year> <month>       Get monthly sales report"
-      STDERR.puts "    estimated <year> <month>   Get estimated sales report"
-      STDERR.puts "    orders [--details] <start_date> <end_date> [<state>]    Get order list"
+      STDERR.puts "    sales <year> <month>             Get monthly sales report"
+      STDERR.puts "    estimated <year> <month>         Get estimated sales report"
+      STDERR.puts "    orders <start_date> <end_date>   Get order list"
       STDERR.puts "    appstats <package_name> <startDay> <endDay>   Get app stats (in zip file)"
       exit 1
     end
