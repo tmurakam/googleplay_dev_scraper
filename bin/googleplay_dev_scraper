@@ -6,11 +6,11 @@ lib = File.expand_path('../lib', File.dirname(__FILE__))
 $LOAD_PATH.unshift(lib)
 
 require 'optparse'
-require 'googleplay_scraper'
+require 'googleplay_dev_scraper'
 
-Version = GooglePlayScraper::VERSION
+Version = GooglePlayDevScraper::VERSION
 
-module GooglePlayScraper
+module GooglePlayDevScraper
   class Tool
     def initialize
       @scraper = Scraper.new
@@ -67,7 +67,7 @@ module GooglePlayScraper
           config.proxy_port = a[1]
         }
         opt.on('-v', '--version', 'Show version') {
-          puts VERSION
+          puts Version
           exit 0
         }
         opt.parse!(ARGV)
@@ -117,6 +117,6 @@ module GooglePlayScraper
   end
 end
 
-tool = GooglePlayScraper::Tool.new
+tool = GooglePlayDevScraper::Tool.new
 tool.main
 

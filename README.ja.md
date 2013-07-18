@@ -32,13 +32,13 @@ Google Wallet Merchant Center からは以下のものをダウンロードで�
 
 以下のようにしてインストールします。
 
-    $ gem install googleplay_scraper
+    $ gem install googleplay_dev_scraper
 
 
 設定
 ====
 
-設定ファイルを ~/.googleplay_scraper に YAML フォーマットで作成してください。
+設定ファイルを ~/.googleplay_dev_scraper に YAML フォーマットで作成してください。
 以下にサンプルを示します。
 
 Google Play メールアドレスとパスワード、デベロッパIDを設定してください。
@@ -48,10 +48,10 @@ Google Play メールアドレスとパスワード、デベロッパIDを設定
 dev_acc=... の数字です。
 
 ```
-# GooglePlay scraper config file sample (YAML format)
+# GooglePlay dev scraper config file sample (YAML format)
 #
-# Place this content to your ~/.googleplay_scraper or
-# ./.googleplay_scraper.
+# Place this content to your ~/.googleplay_dev_scraper or
+# ./.googleplay_dev_scraper.
 #
 # WARNING: This file contains password, be careful
 # of file permission.
@@ -85,11 +85,11 @@ dev_acc: "12345678901234567890"
 2011年10月の売上を取得する場合は以下のようにします。
 結果は標準出力に出力されます。
 
-    $ googleplay_scraper sales 2011 10
+    $ googleplay_dev_scraper sales 2011 10
 
 また推定売上レポートもダウンロードできます。
 
-    $ googleplay_scraper estimated 2011 10
+    $ googleplay_dev_scraper estimated 2011 10
 
 
 オーダー一覧取得
@@ -98,7 +98,7 @@ dev_acc: "12345678901234567890"
 オーダーの一覧を取得します。
 開始日と終了日を指定します。時刻は日本時間で指定。
 
-    $ googleplay_scraper orders "2011-08-01 00:00:00" "2011-09-30 23:59:59"
+    $ googleplay_dev_scraper orders "2011-08-01 00:00:00" "2011-09-30 23:59:59"
 
 
 アプリケーション統計情報取得
@@ -107,7 +107,7 @@ dev_acc: "12345678901234567890"
 Developer Console の統計情報 CSV エクスポートと同じものを得ます。
 対象となるアプリのパッケージ名と、開始日/終了日を指定してください。
 
-    $ googleplay_scraper appstats your.package.name 20120101 20120630 > stat.zip
+    $ googleplay_dev_scraper appstats your.package.name 20120101 20120630 > stat.zip
 
 ZIP ファイルが標準出力に出力されるので、リダイレクトでファイルに
 落としてください。
@@ -119,9 +119,9 @@ API の利用
 例:
 
 ```
-require 'googleplay_scraper'
+require 'googleplay_dev_scraper'
 
-scraper = GooglePlayScraper::Scraper.new
+scraper = GooglePlayDevScraper::Scraper.new
 
 # set config (Note: config file is not read via API access)
 scraper.config.email = "foo@example.com"

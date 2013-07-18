@@ -34,7 +34,7 @@ module GooglePlayDevScraper
     end
 
     def load_config(path = nil)
-      config_files = [ path, ".googleplay_scraper", "#{ENV['HOME']}/.googleplay_scraper" ]
+      config_files = [ path, ".googleplay_dev_scraper", "#{ENV['HOME']}/.googleplay_dev_scraper" ]
 
       config_files.each do |file|
         load_config_file(file)

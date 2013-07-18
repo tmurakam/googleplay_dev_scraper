@@ -54,13 +54,13 @@ EOF
     it "without path" do
       @config.load_config
       a = @config.config_files.should ==
-        [ nil, ".googleplay_scraper", ENV['HOME'] + "/.googleplay_scraper"]
+        [ nil, ".googleplay_dev_scraper", ENV['HOME'] + "/.googleplay_dev_scraper"]
     end
 
     it "with path" do
       @config.load_config("/some/path")
       a = @config.config_files.should ==
-        [ "/some/path", ".googleplay_scraper", ENV['HOME'] + "/.googleplay_scraper"]
+        [ "/some/path", ".googleplay_dev_scraper", ENV['HOME'] + "/.googleplay_dev_scraper"]
     end
   end
 end
