@@ -82,44 +82,6 @@ module GooglePlayScraper
       end
     end
 
-    # Get payout report
-    #
-    # [start_day]
-    #   start day (yyyy-MM-dd)
-    # [end_day]
-    #   end day (yyyy-MM-dd)
-    # [type]
-    #   PAYOUT_REPORT or TRANSACTION_DETAIL_REPORT
-    # [Return]
-    #   CSV string
-    def get_payouts(start_day, end_day, type = "PAYOUT_REPORT")
-
-      try_get("https://checkout.google.com/sell/payouts")
-
-      @agent.page.form_with(:name => "btRangeReport") do |form|
-        form["startDay"] = "d:" + start_day.to_s
-        form["endDay"] = "d:" + end_day.to_s
-        #form["reportType"] = type
-        form.radiobutton_with(:value => type).check
-
-        form.click_button
-      end
-
-      body_string
-    end
-
-
-    # Get order details page
-    # [order_id]
-    #   google order ID
-    # [Return]
-    #   CSV string
-    def get_order_detail(order_id)
-      try_get("https://checkout.google.com/sell/multiOrder?order=#{order_id}&ordersTable=1")
-
-      body_string
-    end
-
     # Get application statistics CSV in zip
     #
     # [package]
@@ -142,45 +104,6 @@ module GooglePlayScraper
       STDERR.puts "URL = #{url}"
       try_get(url)
       @agent.page.body
-    end
-
-    # Push all deliver buttons
-    # [auto_archive]
-    #   auto archive flag
-    def auto_deliver(auto_archive = false)
-      # access 'orders' page
-      try_get("https://checkout.google.com/sell/orders")
-
-      more_buttons = true
-
-      # 押すべきボタンがなくなるまで、ボタンを押し続ける
-      while more_buttons
-        more_buttons = false
-
-        @agent.page.forms.each do |form|
-          order_id = nil
-          order_field = form.field_with(:name => "OrderSelection")
-          if order_field
-            order_id = order_field.value
-          end
-
-          button = form.button_with(:name => "closeOrderButton")
-          if button
-            puts "Deliver : #{order_id}"
-          elsif auto_archive
-            button = form.button_with(:name => "archiveButton")
-            if button
-              puts "Archive : #{order_id}"
-            end
-          end
-
-          if button
-            form.click_button(button)
-            more_buttons = true
-            break
-          end
-        end
-      end
     end
 
     # dump CSV (util)
