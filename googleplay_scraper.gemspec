@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = GooglePlayScraper::VERSION
   gem.authors       = ["Takuya Murakami"]
   gem.email         = ["tmurakam@tmurakam.org"]
-  gem.description   = %q{Scraping and download CSV data from Google Play developer console and Google Checkout.}
-  gem.summary       = %q{Scraper for Google Play developer console and Google checkout}
+  gem.description   = %q{Scraping and download CSV data from Google Play developer console and Google Wallet.}
+  gem.summary       = %q{Scraper for Google Play developer console and Google wallet}
   gem.homepage      = "https://github.com/tmurakam/googleplay-scraper"
 
   gem.files         = `git ls-files`.split($/)

@@ -33,14 +33,10 @@ module GooglePlayScraper
         estimated
       when "orders"
         orders
-      when "order"
-        order
-      when "payouts"
-        payouts
       when "appstats"
         appstats
-      when "autodeliver"
-        autodeliver
+      when "wallet_orders"
+        wallet_orders
       else
         usage
       end
@@ -50,13 +46,10 @@ module GooglePlayScraper
       STDERR.puts "Usage: #{$0} [options] command [arguments...]"
       STDERR.puts "       #{$0} --help"
       STDERR.puts "  Commands:"
-      STDERR.puts "    sales <year> <month>       Get monthly sales report"
-      STDERR.puts "    estimated <year> <month>   Get estimated sales report"
-      STDERR.puts "    orders [--details] <start_date> <end_date> [<state>]    Get order list"
-      STDERR.puts "    order <order_id>           Get order details (in html)"
-      STDERR.puts "    payouts <start_date> <end_date> [<type>]      Get payout report"
+      STDERR.puts "    sales <year> <month>             Get monthly sales report"
+      STDERR.puts "    estimated <year> <month>         Get estimated sales report"
+      STDERR.puts "    orders <start_date> <end_date>   Get order list"
       STDERR.puts "    appstats <package_name> <startDay> <endDay>   Get app stats (in zip file)"
-      STDERR.puts "    autodeliver [--auto]       Push all deliver buttons"
       exit 1
     end
 
@@ -73,8 +66,10 @@ module GooglePlayScraper
           config.proxy_host = a[0]
           config.proxy_port = a[1]
         }
-        opt.on('--details', 'Show detail CSV for order list') {|v| @show_details = true}
-        opt.on('--auto', 'Auto deliver') {|v| @auto_archive = true}
+        opt.on('-v', '--version', 'Show version') {
+          puts VERSION
+          exit 0
+        }
         opt.parse!(ARGV)
       end
     end
@@ -101,30 +96,14 @@ module GooglePlayScraper
     def orders
       usage if (ARGV.size < 2)
 
-      startdate = ARGV[0]
-      enddate = ARGV[1]
-      state = "CHARGED"
-      if (ARGV.size >= 3)
-        state = ARGV[2]
-      end
+      startdate = DateTime.parse(ARGV[0])
+      enddate = DateTime.parse(ARGV[1])
 
-      puts @scraper.get_order_list(startdate, enddate, state, @show_details)
+      puts @scraper.get_order_list(startdate, enddate)
     end
 
-    def order
-      orderId = ARGV[0]
-      puts @scraper.get_order_detail(orderId)
-    end
-
-    def payouts
-      startdate = Date.parse(ARGV[0])
-      enddate = Date.parse(ARGV[1])
-      type = "PAYOUT_REPORT"
-      if (ARGV.size >= 3)
-        type = ARGV[2]
-      end
-
-      puts @scraper.get_payouts(startdate, enddate, type)
+    def wallet_orders
+      puts @scraper.get_wallet_orders
     end
 
     def appstats
@@ -134,10 +113,6 @@ module GooglePlayScraper
       endDay = ARGV[2]
 
       puts @scraper.get_appstats(package, startDay, endDay)
-    end
-
-    def autodeliver
-      @scraper.auto_deliver @auto_archive
     end
   end
 end
