@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'googleplay_scraper/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "google_play_scraper"
+  gem.name          = "googleplay_dev_scraper"
   gem.version       = GooglePlayScraper::VERSION
   gem.authors       = ["Takuya Murakami"]
   gem.email         = ["tmurakam@tmurakam.org"]
