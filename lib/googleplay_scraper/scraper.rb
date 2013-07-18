@@ -77,7 +77,7 @@ module GooglePlayScraper
         try_get("https://wallet.google.com/merchant/pages/" +
                 bcid + "/" + oid + "/" + cid +
                 "/purchaseorderdownload?startTime=#{start_time.to_time.to_i * 1000}" + 
-                "&endTime=#{end_time.to_i * 1000}"
+                "&endTime=#{end_time.to_i * 1000}")
         body_string
       end
     end
