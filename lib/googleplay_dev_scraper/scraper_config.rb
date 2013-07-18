@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-# = GooglePlay Scraper
+# = GooglePlay dev Scraper
 # Author:: Takuya Murakami
 # License:: Public domain
 
@@ -9,7 +9,7 @@ require 'mechanize'
 require 'csv'
 require 'yaml'
 
-module GooglePlayScraper
+module GooglePlayDevScraper
   #
   # Configurations
   #

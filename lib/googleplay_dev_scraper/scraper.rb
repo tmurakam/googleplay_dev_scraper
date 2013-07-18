@@ -10,7 +10,7 @@ require 'csv'
 require 'yaml'
 require 'date'
 
-module GooglePlayScraper
+module GooglePlayDevScraper
   #
   # Google Play and google checkout scraper
   #

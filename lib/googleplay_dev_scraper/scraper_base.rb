@@ -9,7 +9,7 @@ require 'mechanize'
 require 'csv'
 require 'yaml'
 
-module GooglePlayScraper
+module GooglePlayDevScraper
   class ScraperBase
     attr_accessor :agent
     attr_accessor :config

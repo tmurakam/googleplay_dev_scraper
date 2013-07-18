@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe GooglePlayScraper::ScraperConfig do
+describe GooglePlayDevScraper::ScraperConfig do
   before do
-    @config = GooglePlayScraper::ScraperConfig.new
+    @config = GooglePlayDevScraper::ScraperConfig.new
   end
 
   context "read_config" do

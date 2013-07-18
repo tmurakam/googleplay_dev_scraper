@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 require 'rubygems'
-require 'googleplay_scraper'
+require 'googleplay_dev_scraper'
 
-class ScraperMock < GooglePlayScraper::Scraper
+class ScraperMock < GooglePlayDevScraper::Scraper
   attr_reader :accessed_url
 
   def initialize
