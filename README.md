@@ -29,19 +29,19 @@ Requirements/Installation
 
 To install:
 
-    $ gem install googleplay_scraper
+    $ gem install googleplay_dev_scraper
 
 Configuration
 =============
 
-Create configuration file at ~/.googleplay_scraper,
-or ./.googleplay_scraper in YAML format.
+Create configuration file at ~/.googleplay_dev_scraper,
+or ./.googleplay_dev_scraper in YAML format.
 
 ```
 # GooglePlay scraper config file sample (YAML format)
 #
-# Place this content to your ~/.googleplay_scraper or
-# ./.googleplay_scraper.
+# Place this content to your ~/.googleplay_dev_scraper or
+# ./.googleplay_dev_scraper.
 #
 # WARNING: This file contains password, be careful
 # of file permission.
@@ -73,18 +73,18 @@ Get sales report
 
 To download sales report for October 2011:
 
-    $ googleplay_scraper sales 2011 10
+    $ googleplay_dev_scraper sales 2011 10
 
 Or you can download estimated report too:
 
-    $ googleplay_scraper estimated 2011 10
+    $ googleplay_dev_scraper estimated 2011 10
 
 Get order report
 ----------------
 
 To download order report, specify start and end time as:
 
-    $ googleplay_scraper orders "2011-08-01 00:00:00" "2011-09-30 23:59:59"
+    $ googleplay_dev_scraper orders "2011-08-01 00:00:00" "2011-09-30 23:59:59"
 
 Get application statistics
 --------------------------
@@ -92,7 +92,7 @@ Get application statistics
 Export application statistics in CSV format.
 Specify application package name and start/end date.
 
-    $ googleplay_scraper appstats your.package.name 20120101 20120630 > stat.zip
+    $ googleplay_dev_scraper appstats your.package.name 20120101 20120630 > stat.zip
 
 Note: You must redirect output to zip file!
 
@@ -102,9 +102,9 @@ API usage
 Example:
 
 ```
-require 'googleplay_scraper'
+require 'googleplay_dev_scraper'
 
-scraper = GooglePlayScraper::Scraper.new
+scraper = GooglePlayDevScraper::Scraper.new
 
 # set config (Note: config file is not read via API access)
 scraper.config.email = "foo@example.com"

@@ -1,7 +1,7 @@
 # GooglePlay scraper config file sample (YAML format)
 #
-# Place this content to your ~/.googleplay_scraper or
-# ./.googleplay_scraper.
+# Place this content to your ~/.googleplay_dev_scraper or
+# ./.googleplay_dev_scraper.
 #
 # WARNING: This file contains password, be careful
 # of file permission.

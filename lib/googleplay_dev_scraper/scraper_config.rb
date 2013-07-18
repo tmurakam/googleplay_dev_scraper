@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-# = GooglePlay Scraper
+# = GooglePlay dev Scraper
 # Author:: Takuya Murakami
 # License:: Public domain
 
@@ -9,7 +9,7 @@ require 'mechanize'
 require 'csv'
 require 'yaml'
 
-module GooglePlayScraper
+module GooglePlayDevScraper
   #
   # Configurations
   #
@@ -34,7 +34,7 @@ module GooglePlayScraper
     end
 
     def load_config(path = nil)
-      config_files = [ path, ".googleplay_scraper", "#{ENV['HOME']}/.googleplay_scraper" ]
+      config_files = [ path, ".googleplay_dev_scraper", "#{ENV['HOME']}/.googleplay_dev_scraper" ]
 
       config_files.each do |file|
         load_config_file(file)
