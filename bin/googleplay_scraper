@@ -103,14 +103,10 @@ module GooglePlayScraper
     def orders
       usage if (ARGV.size < 2)
 
-      startdate = ARGV[0]
-      enddate = ARGV[1]
-      state = "CHARGED"
-      if (ARGV.size >= 3)
-        state = ARGV[2]
-      end
+      startdate = DateTime.parse(ARGV[0])
+      enddate = DateTime.parse(ARGV[1])
 
-      puts @scraper.get_order_list(startdate, enddate) #, state, @show_details)
+      puts @scraper.get_order_list(startdate, enddate)
     end
 
     def wallet_orders

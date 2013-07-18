@@ -8,6 +8,7 @@
 require 'mechanize'
 require 'csv'
 require 'yaml'
+require 'date'
 
 module GooglePlayScraper
   #
@@ -59,22 +60,24 @@ module GooglePlayScraper
     # Get order list
     #
     # [start_date]
-    #   start date (MM/dd/yyyy)
+    #   start time (DateTime)
     # [end_date]
-    #   end date (MM/dd/yyyy)
+    #   end time (DateTime)
     # [Return]
     #   CSV string
-    def get_order_list(start_date, end_date)
-      
+    def get_order_list(start_time, end_time)
       try_get("https://wallet.google.com/merchant/pages/")
       if @agent.page.uri.path =~ /(bcid-[^\/]+)\/(oid-[^\/]+)\/(cid-[^\/]+)\//
         bcid = $1
         oid = $2
         cid = $3
 
+        # You can check the URL with your browser.
+        # (download csv file, and check download history with chrome/firefox)
         try_get("https://wallet.google.com/merchant/pages/" +
                 bcid + "/" + oid + "/" + cid +
-                "/purchaseorderdownload?startTime=1370012400000&endTime=1370185200000")
+                "/purchaseorderdownload?startTime=#{start_time.to_time.to_i * 1000}" + 
+                "&endTime=#{end_time.to_i * 1000}"
         body_string
       end
     end
