@@ -8,6 +8,7 @@
 require 'mechanize'
 require 'csv'
 require 'yaml'
+require 'date'
 
 module GooglePlayScraper
   #
@@ -59,78 +60,30 @@ module GooglePlayScraper
     # Get order list
     #
     # [start_date]
-    #   start date (yyyy-MM-ddThh:mm:ss)
+    #   start time (DateTime)
     # [end_date]
-    #   end date (yyyy-MM-ddThh:mm:ss)
-    # [state]
-    #   financial state, one of followings:
-    #   ALL, CANCELLED, CANCELLED_BY_GOOGLE, CHARGEABLE, CHARGED,
-    #   CHARGING, PAYMENT_DECLINED, REVIEWING
-    # [expanded]
-    #   true - expanded list, false - normal list
+    #   end time (DateTime)
     # [Return]
     #   CSV string
-    def get_order_list(start_date, end_date, state = "CHARGED", expanded = false)
+    def get_order_list(start_time, end_time)
+      # unix time in ms
+      start_ut = start_time.to_time.to_i * 1000
+      end_ut = end_time.to_time.to_i * 1000
 
-      try_get("https://checkout.google.com/sell/orders")
+      try_get("https://wallet.google.com/merchant/pages/")
+      if @agent.page.uri.path =~ /(bcid-[^\/]+)\/(oid-[^\/]+)\/(cid-[^\/]+)\//
+        bcid = $1
+        oid = $2
+        cid = $3
 
-      @agent.page.form_with(:name => "dateInput") do |form|
-        form["start-date"] = start_date
-        form["end-date"] = end_date
-        if state == "ALL"
-          form.delete_field!("financial-state")
-        else
-          form["financial-state"] = state
-        end
-        if expanded
-          form["column-style"] = "EXPANDED"
-        end
-        #form["date-time-zone"] = "Asia/Tokyo"
-        #form["_type"] = "order-list-request"
-        #form["query-type"] = ""
-        form.click_button
+        # You can check the URL with your browser.
+        # (download csv file, and check download history with chrome/firefox)
+        try_get("https://wallet.google.com/merchant/pages/" +
+                bcid + "/" + oid + "/" + cid +
+                "/purchaseorderdownload?startTime=#{start_ut}" + 
+                "&endTime=#{end_ut}")
+        body_string
       end
-
-      body_string
-    end
-
-
-    # Get payout report
-    #
-    # [start_day]
-    #   start day (yyyy-MM-dd)
-    # [end_day]
-    #   end day (yyyy-MM-dd)
-    # [type]
-    #   PAYOUT_REPORT or TRANSACTION_DETAIL_REPORT
-    # [Return]
-    #   CSV string
-    def get_payouts(start_day, end_day, type = "PAYOUT_REPORT")
-
-      try_get("https://checkout.google.com/sell/payouts")
-
-      @agent.page.form_with(:name => "btRangeReport") do |form|
-        form["startDay"] = "d:" + start_day.to_s
-        form["endDay"] = "d:" + end_day.to_s
-        #form["reportType"] = type
-        form.radiobutton_with(:value => type).check
-
-        form.click_button
-      end
-
-      body_string
-    end
-
-
-    # Get order details page
-    # [order_id]
-    #   google order ID
-    # [Return]
-    #   CSV string
-    def get_order_detail(order_id)
-      try_get("https://checkout.google.com/sell/multiOrder?order=#{order_id}&ordersTable=1")
-
-      body_string
     end
 
     # Get application statistics CSV in zip
@@ -157,45 +110,6 @@ module GooglePlayScraper
       @agent.page.body
     end
 
-    # Push all deliver buttons
-    # [auto_archive]
-    #   auto archive flag
-    def auto_deliver(auto_archive = false)
-      # access 'orders' page
-      try_get("https://checkout.google.com/sell/orders")
-
-      more_buttons = true
-
-      # 押すべきボタンがなくなるまで、ボタンを押し続ける
-      while more_buttons
-        more_buttons = false
-
-        @agent.page.forms.each do |form|
-          order_id = nil
-          order_field = form.field_with(:name => "OrderSelection")
-          if order_field
-            order_id = order_field.value
-          end
-
-          button = form.button_with(:name => "closeOrderButton")
-          if button
-            puts "Deliver : #{order_id}"
-          elsif auto_archive
-            button = form.button_with(:name => "archiveButton")
-            if button
-              puts "Archive : #{order_id}"
-            end
-          end
-
-          if button
-            form.click_button(button)
-            more_buttons = true
-            break
-          end
-        end
-      end
-    end
-
     # dump CSV (util)
     def dump_csv(csv_string)
       headers = nil
@@ -212,6 +126,47 @@ module GooglePlayScraper
         end
         puts
       end
+    end
+
+    #
+    # Get order list from wallet html page
+    #
+    def get_wallet_orders
+      try_get("https://wallet.google.com/merchant/pages/")
+      html = body_string
+
+      doc = Nokogiri::HTML(html)
+
+      #doc.xpath("//table[@id='purchaseOrderListTable']")
+
+      result = ""
+
+      doc.xpath("//tr[@class='orderRow']").each do |e|
+        order_id = e['id']
+
+        date = nil
+        desc = nil
+        total = nil
+        status = nil
+
+        e.children.each do |e2|
+          case e2['class']
+          when /wallet-date-column/
+            date = e2.content
+          when /wallet-description-column/
+            desc = e2.content
+          when /wallet-total-column/
+            total = e2.content
+          when /wallet-status-column/
+            e3 = e2.children.first
+            status = e3['title'] unless e3.nil?
+          end
+        end
+
+        result += [order_id, date, desc, status, total].join(",") + "\n"
+      end
+
+      result
     end
   end
 end

@@ -29,8 +29,20 @@ module GooglePlayScraper
     # HTTP proxy port
     attr_accessor :proxy_port
 
+    # bcid?
+    attr_accessor :bcid
+    
+    # oid?
+    attr_accessor :oid
+    
+    # cid?
+    attr_accessor :cid
+
     def initialize
       @dev_acc = nil
+      @bcid = nil
+      @oid = nil
+      @cid = nil
     end
 
     def load_config(path = nil)
@@ -63,6 +75,9 @@ module GooglePlayScraper
         @email      ||= h['email']
         @password   ||= h['password']
         @dev_acc    ||= h['dev_acc']
+        @bcid       ||= h['bcid']
+        @oid        ||= h['oid']
+        @cid        ||= h['cid']
         @proxy_host ||= h['proxy_host']
         @proxy_port ||= h['proxy_port']
       end
