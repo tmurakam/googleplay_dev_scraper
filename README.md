@@ -1,11 +1,11 @@
-Google Play / Google Checkout Scraper for Developers
-====================================================
+Google Play / Google Wallet Scraper for Android Developers
+==========================================================
 
 Introduction
 ============
 
 This tool is designed to download CSV report files from
-Google Play developer console and google checkout.
+Google Play developer console and google wallet.
 
 It can download following CSV files from Google Play 
 developer console
@@ -19,7 +19,7 @@ It can download following CSV files from Google Wallet.
 * Order list (almost realtime)
 
 You don't need any merchant key, because this tool scrapes
-google checkout website.
+google play / wallet website.
 
 Requirements/Installation
 =========================

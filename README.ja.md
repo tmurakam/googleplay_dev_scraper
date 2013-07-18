@@ -1,11 +1,11 @@
-開発者向け Google Play / Google Checkout Scraper
-================================================
+Android 開発者向け Google Play / Google Wallet Scraper
+======================================================
 
 はじめに
 ========
 
 このツールは、Google Play デベロッパーコンソール、
-および Google Checkout で提供される販売者向けの売上
+および Google Wallet で提供される販売者向けの売上
 レポート CSV ファイルを自動でダウンロードするための
 ツールです。
 
