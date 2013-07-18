@@ -1,3 +1,8 @@
+2013/7/18 : Takuya Murakami
+
+	* use DateTime class for some api
+	* remove google checkout specific apis (payouts, order_detail, auto_deliver)
+
 2013/6/21 : Takuya Murakami
 
 	* add 'wallet_orders' command

@@ -12,13 +12,10 @@
 ダウンロードできるのは以下の２通りです。
 
 * Google Play のデベロッパーコンソールで提供される販売レポート
-* Google Checkout で提供される注文リスト
-* 売上管理の支払概要
+* Google Wallet で提供されるオーダーリスト
 
 売上の集計をするなり、経理システムにぶち込むなり、お好きに
 どうぞ。
-
-この他、自動で発送ボタンを押す機能もあります。
 
 
 必要システム
@@ -26,7 +23,7 @@
 
 以下のものが必要です。
 
-* Ruby 1.8.7以上 or 1.9.2以上
+* Ruby 1.9.3以上
 * RubyGems
 
 以下のようにしてインストールします。
@@ -95,43 +92,9 @@ dev_acc: "12345678901234567890"
 ----------------
 
 オーダーの一覧を取得します。
-開始日時と終了日時を指定します。時刻は日本時間で指定。
+開始日と終了日を指定します。時刻は日本時間で指定。
 
-    $ googleplay_scraper orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
-
---details オプションを付与すると詳細な CSV データを出力します。
-
-    $ googleplay_scraper --details orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
-
-なお、第4引数として以下のいずれかの条件を指定
-できます。省略時は CHARGED が指定されたものとして扱います。
-
-* ALL : すべて
-* CANCELLED : ユーザーによりキャンセルされました
-* CANCELLED_BY_GOOGLE : Google によりキャンセルされました
-* CHARGEABLE: 請求可能
-* CHARGED : 請求済み
-* CHARGING : 請求中
-* PAYMENT_DECLINED : 支払いの不承認
-* REVIEWING : 確認中
-
-なお、オーダー一覧は最大で 500件までしか取得できません(サイトには
-そう書いてある)。したがって、これより多くのデータを取得したい場合は
-開始日時と終了日時を狭めて取得してください。
-
-
-支払い概要取得
---------------
-
-Google checkout の支払概要を取得します。
-こちらは開始日と終了日を指定します。
-
-    $ googleplay_scraper payouts 2011-11-01 2011-12-01
-
-第4引数には以下の引数を指定できます。省略時は PAYOUT_REPORT です。
-
-* PAYOUT_REPORT : 支払いの詳細
-* TRANSACTION_DETAIL_REPORT : トランザクション
+    $ googleplay_scraper orders "2011-08-01 00:00:00" "2011-09-30 23:59:59"
 
 
 アプリケーション統計情報取得
@@ -144,22 +107,6 @@ Developer Console の統計情報 CSV エクスポートと同じものを得ま
 
 ZIP ファイルが標準出力に出力されるので、リダイレクトでファイルに
 落としてください。
-
-
-発送ボタン自動処理
-------------------
-
-注文の受信トレイにある全ての「発送」ボタンを自動で押す機能です。
-使い方は以下のとおり。
-
-    $ googleplay_scraper autodeliver
-
-「アーカイブ」も全部押したい場合は --auto オプションをつけてください。
-
-なお、発送ボタンが押されるのは注文の受信トレイの１ページ目に
-あるオーダーだけです。2ページ目以降のものは押されません。
-
-そもそもなんで発送ボタンなるものがあるのか不明ですが、、、
 
 
 API の利用
@@ -182,10 +129,7 @@ puts scraper.get_sales_report(2012, 11)
 puts scraper.get_estimated_sales_report(2012, 12)
 
 # get orders
-puts scraper.get_order_list("2012-11-01T00:00:00", "2012-11-30T23:59:59", "CHARGED", true)
-
-# get payout report
-puts scraper.get_payouts("2012-11-01", "2012-12-1", "PAYOUT_REPORT")
+puts scraper.get_order_list(DateTime.parse("2012-11-01"), DateTime.parse("2012-11-30"))
 ```
 
 内部動作とか
@@ -217,8 +161,8 @@ Public domain 扱いとします。
 ひとりごと
 ==========
 
-* Google さん、Android 向けの Google Checkout API 解放してくれるとすごく嬉しいのですが、、、
+* Google さん、Android 向けの Google Wallet API (オーダー一覧とか)解放してくれるとすごく嬉しいのですが、、、
 
 ---
-'12/12/13
+'12/7/18
 Takuya Murakami, E-mail: tmurakam at tmurakam.org

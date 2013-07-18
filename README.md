@@ -12,9 +12,6 @@ It can download following CSV files.
 * Sales report (monthly report)
 * Estimateds sales report
 * Order list (almost realtime)
-* Payout report
-
-Also, it can press all "ship" buttons on google checkout.
 
 You don't need any merchant key, because this tool scrapes
 google checkout website.
@@ -22,7 +19,7 @@ google checkout website.
 Requirements/Installation
 =========================
 
-* Ruby >=1.8.7 or >= 1.9.2
+* Ruby >=1.9.3
 * RubyGems
 
 To install:
@@ -82,36 +79,7 @@ Get order report
 
 To download order report, specify start and end time as:
 
-    $ googleplay_scraper orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
-
-You can use --details option to show expanded csv format.
-
-    $ googleplay_scraper --details orders 2011-08-01T:00:00:00 2011-09-30T23:59:59
-
-You can specify 4th argument from:
-
-* ALL
-* CANCELLED
-* CANCELLED_BY_GOOGLE
-* CHARGEABLE
-* CHARGED
-* CHARGING 
-* PAYMENT_DECLINED
-* REVIEWING
-
-
-Get payout report
------------------
-
-To download payout report, specify start / end date as:
-
-    $ googleplay_scraper payouts 2011-11-01 2011-12-01
-
-You can specify 4th argument from:
-
-* PAYOUT_REPORT
-* TRANSACTION_DETAIL_REPORT
-
+    $ googleplay_scraper orders "2011-08-01 00:00:00" "2011-09-30 23:59:59"
 
 Get application satistics
 -------------------------
@@ -122,22 +90,6 @@ Specify application package name and start/end date.
     $ googleplay_scraper appstats your.package.name 20120101 20120630 > stat.zip
 
 Note: You must redirect output to zip file!
-
-
-Auto press ship buttons
------------------------
-
-Press all "ship" buttons on Orders - Inbox page of google checkout:
-
-    $ googleplay_scraper autodeliver
-
-To archive all orders:
-
-    $ googleplay_scraper --auto autodeliver
-
-Note: This can press buttons ONLY on first page. If you have too 
-many orders on first page, you must archive them manually or
-use '--auto' option.
 
 API usage
 =========
@@ -159,10 +111,7 @@ puts scraper.get_sales_report(2012, 11)
 puts scraper.get_estimated_sales_report(2012, 12)
 
 # get orders
-puts scraper.get_order_list("2012-11-01T00:00:00", "2012-11-30T23:59:59", "CHARGED", true)
-
-# get payout report
-puts scraper.get_payouts("2012-11-01", "2012-12-1", "PAYOUT_REPORT")
+puts scraper.get_order_list(DateTime.parse("2012-11-01 00:00:00", DateTime.parse("2012-11-30T23:59:59"))
 ```
 
 License
@@ -177,5 +126,5 @@ Disclaimer
 * NO WARRANTY
 
 ---
-'12/12/13
+'13/7/18
 Takuya Murakami, E-mail: tmurakam at tmurakam.org
