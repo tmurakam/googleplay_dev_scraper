@@ -66,6 +66,10 @@ module GooglePlayScraper
           config.proxy_host = a[0]
           config.proxy_port = a[1]
         }
+        opt.on('-v', '--version', 'Show version') {
+          puts VERSION
+          exit 0
+        }
         opt.parse!(ARGV)
       end
     end
