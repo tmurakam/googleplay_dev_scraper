@@ -7,7 +7,7 @@ Introduction
 This tool is designed to download CSV report files from
 Google Play developer console and google wallet.
 
-It can download following CSV files from Google Play 
+It can download following CSV files from Google Play
 developer console
 
 * Sales report (monthly report)
