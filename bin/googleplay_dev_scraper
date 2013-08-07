@@ -43,6 +43,7 @@ module GooglePlayDevScraper
     end
 
     def usage
+      STDERR.puts "Google Play and Google Checkout scraper for developers ver #{Version}"
       STDERR.puts "Usage: #{$0} [options] command [arguments...]"
       STDERR.puts "       #{$0} --help"
       STDERR.puts "  Commands:"
