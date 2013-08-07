@@ -98,8 +98,12 @@ module GooglePlayDevScraper
     #   application statics zip data
     #
     def get_appstats(package, start_day, end_day)
-      dim = "overall,country,language,os_version,device,app_version,carrier&met=active_device_installs,daily_device_installs,daily_device_uninstalls,daily_device_upgrades,active_user_installs,total_user_installs,daily_user_installs,daily_user_uninstalls,daily_avg_rating,total_avg_rating"
-      url = "https://play.google.com/apps/publish/v2/statistics/download"
+      #dim = "overall,country,language,os_version,device,app_version,carrier&met=active_device_installs,daily_device_installs,daily_device_uninstalls,daily_device_upgrades,active_user_installs,total_user_installs,daily_user_installs,daily_user_uninstalls,daily_avg_rating,total_avg_rating"
+      #url = "https://play.google.com/apps/publish/v2/statistics/download"
+
+      # 2013/8/7 changed?
+      dim = "overall,os_version,device,country,language,app_version,carrier&met=current_device_installs,daily_device_installs,daily_device_uninstalls,daily_device_upgrades,current_user_installs,total_user_installs,daily_user_installs,daily_user_uninstalls,daily_avg_rating,total_avg_rating"
+      url = "https://play.google.com/apps/publish/statistics/download"
       url += "?package=#{package}"
       url += "&sd=#{start_day}&ed=#{end_day}"
       url += "&dim=#{dim}"
