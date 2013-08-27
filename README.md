@@ -77,7 +77,9 @@ To download sales report for October 2011:
 
 Or you can download estimated report too:
 
-    $ googleplay_dev_scraper estimated 2011 10
+    $ googleplay_dev_scraper estimated 2011 10 > report.zip
+
+Note: Estimated report is compressed in zip file.
 
 Get order report
 ----------------
