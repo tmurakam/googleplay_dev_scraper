@@ -89,7 +89,9 @@ dev_acc: "12345678901234567890"
 
 また推定売上レポートもダウンロードできます。
 
-    $ googleplay_dev_scraper estimated 2011 10
+    $ googleplay_dev_scraper estimated 2011 10 > report.zip
+
+注意: 推定売上レポートは ZIP ファイルとなっています。
 
 
 オーダー一覧取得
