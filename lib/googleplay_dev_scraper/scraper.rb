@@ -51,7 +51,8 @@ module GooglePlayDevScraper
     #
     def get_estimated_sales_report(year, month)
       #https://play.google.com/apps/publish/v2/salesreport/download?report_date=2013_03&report_type=sales_report&dev_acc=09924472108471074593
-      url = sprintf('https://play.google.com/apps/publish/v2/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @config.dev_acc)
+      #url = sprintf('https://play.google.com/apps/publish/v2/salesreport/download?report_date=%04d_%02d&report_type=sales_report&dev_acc=%s', year, month, @config.dev_acc)
+      url = sprintf('https://storage.cloud.google.com/pubsite_prod_rev_%s/sales/salesreport_%04d%02d.zip', @config.dev_acc, year, month)
       try_get(url)
 
       body_string
