@@ -12,8 +12,8 @@ describe GooglePlayDevScraper do
     context 'without options' do
       subject { GooglePlayDevScraper.config }
       it { should be_an_instance_of GooglePlayDevScraper::ScraperConfig }
-      %i(email password dev_acc proxy_host proxy_port).each do |attr|
-        its(attr) { should be_nil }
+      %w(email password dev_acc proxy_host proxy_port).each do |attr|
+        its(attr.to_sym) { should be_nil }
       end
     end
 

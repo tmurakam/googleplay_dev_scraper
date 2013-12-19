@@ -9,6 +9,7 @@ require 'mechanize'
 require 'csv'
 require 'yaml'
 require 'date'
+require 'zip'
 
 module GooglePlayDevScraper
   #
@@ -81,7 +82,7 @@ module GooglePlayDevScraper
         # (download csv file, and check download history with chrome/firefox)
         try_get("https://wallet.google.com/merchant/pages/" +
                 bcid + "/" + oid + "/" + cid +
-                "/purchaseorderdownload?startTime=#{start_ut}" + 
+                "/purchaseorderdownload?startTime=#{start_ut}" +
                 "&endTime=#{end_ut}")
         body_string
       end

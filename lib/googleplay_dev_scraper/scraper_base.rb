@@ -11,8 +11,8 @@ require 'yaml'
 
 module GooglePlayDevScraper
   class ScraperBase
-    attr_accessor :agent
-    attr_accessor :config
+    attr_accessor :agent, :config, :last_response, :last_response_body
+
 
     def initialize
       @config = GooglePlayDevScraper.config
@@ -20,6 +20,11 @@ module GooglePlayDevScraper
     end
 
     def try_get(url)
+      @agent.post_connect_hooks << lambda{|agent, uri, response, res_body|
+        @last_response = response
+        @last_response_body = res_body
+      }
+
       # try to get
       @agent.get(url)
 

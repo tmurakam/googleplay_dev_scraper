@@ -10,8 +10,10 @@ describe GooglePlayDevScraper::ApplicationStatistics do
     )
   end
 
+  let(:package_name) { 'com.example.hello' }
+
   describe '.fetch' do
-    subject { GooglePlayDevScraper::ApplicationStatistics.fetch }
+    subject { GooglePlayDevScraper::ApplicationStatistics.fetch(package_name) }
   end
 
   after { GooglePlayDevScraper.reset! }
