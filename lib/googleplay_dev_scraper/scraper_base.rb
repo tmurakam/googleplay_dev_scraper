@@ -16,7 +16,7 @@ module GooglePlayDevScraper
 
     def initialize
       @agent = nil
-      @config = ScraperConfig.new
+      @config = GooglePlayDevScraper.config
     end
 
     def setup

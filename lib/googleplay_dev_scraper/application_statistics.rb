@@ -1,0 +1,3 @@
+class GooglePlayDevScraper::ApplicationStatistics
+
+end

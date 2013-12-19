@@ -67,5 +67,13 @@ module GooglePlayDevScraper
         @proxy_port ||= h['proxy_port']
       end
     end
+
+    def override_with(options = {})
+      @email = options[:email]
+      @password = options[:password]
+      @dev_acc = options[:dev_acc]
+      @proxy_host = options[:proxy_host]
+      @proxy_port = options[:proxy_port]
+    end
   end
 end
