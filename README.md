@@ -37,7 +37,7 @@ Configuration
 Create configuration file at ~/.googleplay_dev_scraper,
 or ./.googleplay_dev_scraper in YAML format.
 
-```
+```yaml
 # GooglePlay scraper config file sample (YAML format)
 #
 # Place this content to your ~/.googleplay_dev_scraper or
@@ -103,7 +103,7 @@ API usage
 
 Example:
 
-```
+```ruby
 require 'googleplay_dev_scraper'
 
 # set config (Note: config file is not read via API access)
@@ -127,7 +127,7 @@ puts scraper.get_order_list(DateTime.parse("2012-11-01 00:00:00", DateTime.parse
 #     overall os_version device country language app_version carrier
 #     gcm_message_status gcm_response_code crash_details anr_details
 #
-#    (use 'device' demension may returns huge data set. be careful!) 
+#    (use 'device' dimension may returns huge data set. be careful!) 
 #
 #   available metrics :
 #     current_device_installs daily_device_installs daily_device_uninstalls
