@@ -15,27 +15,11 @@ module GooglePlayDevScraper
     attr_accessor :config
 
     def initialize
-      @agent = nil
       @config = GooglePlayDevScraper.config
-    end
-
-    def setup
-      #Mechanize.log = Logger.new("mechanize.log")
-      #Mechanize.log.level = Logger::INFO
-
-      unless @agent
-        @agent = Mechanize.new
-      end
-      if @config.proxy_host && @config.proxy_host.length >= 1
-        @agent.set_proxy(@config.proxy_host, @config.proxy_port)
-      end
+      @agent = GooglePlayDevScraper.agent
     end
 
     def try_get(url)
-      unless @agent
-        setup
-      end
-
       # try to get
       @agent.get(url)
 
