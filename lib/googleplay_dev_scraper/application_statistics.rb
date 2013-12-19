@@ -37,7 +37,7 @@ class GooglePlayDevScraper::ApplicationStatistics
       )
       scraper = GooglePlayDevScraper::ScraperBase.new
       scraper.try_get(uri.to_s)
-      entries = []
+
       case scraper.last_response.content_type
       when 'text/csv'
         entries = parse_csv(dimensions.first, scraper.last_response_body)
