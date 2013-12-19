@@ -22,10 +22,11 @@ describe GooglePlayDevScraper::Scraper do
   end
 
   describe "get sales report" do
+    let(:report_date) { Date.new(2012, 11, 1) }
     let(:stub_google_play_request) do
       stub_request(:get, 'https://play.google.com/apps/publish/v2/salesreport/download').with(
         query: {
-          report_date: '2012_11',
+          report_date: "#{report_date.year}_#{report_date.month}",
           report_type: 'payout_report',
           dev_acc: dev_acc
         }
@@ -36,7 +37,7 @@ describe GooglePlayDevScraper::Scraper do
 
     it "normal access" do
       scraper.config.dev_acc = dev_acc
-      scraper.get_sales_report(2012, 11)
+      scraper.get_sales_report(report_date.year, report_date.month)
       stub_google_play_request.should have_been_made.once
     end
   end
