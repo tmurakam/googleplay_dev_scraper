@@ -159,7 +159,12 @@ stats[0].entries
 # to find object, 'select_by' and 'find_by' may help you.
 
 stats.select_by(date: Date.new(2013, 12, 6), dimension: :os_version)
-# => [ #<GooglePlayDevScraper::ApplicationStatistics .. > , #<GooglePlayDevScraper::ApplicationStatistics .. > ]
+# =>
+# [
+#   #<GooglePlayDevScraper::ApplicationStatistics, @date=#<Date: 2013-12-06> .. >,
+#   #<GooglePlayDevScraper::ApplicationStatistics, @date=#<Date: 2013-12-06> .. >,
+#   .. 
+# ]
 
 stats.find_by(date: Date.new(2013, 12, 6), dimension: :os_version)
 # => #<GooglePlayDevScraper::ApplicationStatistics .. >
