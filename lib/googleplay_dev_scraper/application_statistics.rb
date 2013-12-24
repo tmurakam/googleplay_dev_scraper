@@ -43,6 +43,7 @@ class GooglePlayDevScraper::ApplicationStatistics
         entries = parse_csv(dimensions.first, scraper.last_response_body)
       when 'application/zip'
         tempfile = Tempfile.new('csv.zip')
+        tempfile.binmode
         tempfile.write(scraper.last_response_body)
         tempfile.rewind
         zipfile = Zip::File.new(tempfile.path)
