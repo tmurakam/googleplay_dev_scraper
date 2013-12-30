@@ -47,7 +47,7 @@ Google Play メールアドレスとパスワード、デベロッパIDを設定
 デベロッパID は、developer console にログインした後の URL 末尾の
 dev_acc=... の数字です。
 
-```
+```yaml
 # GooglePlay dev scraper config file sample (YAML format)
 #
 # Place this content to your ~/.googleplay_dev_scraper or
@@ -120,22 +120,75 @@ API の利用
 
 例:
 
-```
+```ruby
 require 'googleplay_dev_scraper'
 
 scraper = GooglePlayDevScraper::Scraper.new
 
-# set config (Note: config file is not read via API access)
-scraper.config.email = "foo@example.com"
-scraper.config.password = "YOUR_PASSWORD"
-scraper.config.dev_acc = "1234567890"
+# 設定 (config ファイルはモジュールを用いた場合には読み込まれません)
+GooglePlayDevScraper.config(
+  email: "foo@example.com"
+  password: "YOUR_PASSWORD"
+  dev_acc: "1234567890"
+)
 
-# get sales report / estimated sales report
+# 売上レポート取得
 puts scraper.get_sales_report(2012, 11)
 puts scraper.get_estimated_sales_report(2012, 12)
 
-# get orders
-puts scraper.get_order_list(DateTime.parse("2012-11-01"), DateTime.parse("2012-11-30"))
+# オーダー一覧取得
+puts scraper.get_order_list(
+  DateTime.parse("2012-11-01 00:00:00"), DateTime.parse("2012-11-30 23:59:59")
+)
+
+# アプリケーション統計情報取得
+#   dimensions オプションに利用可能なパラメータ:
+#     overall os_version device country language app_version carrier
+#     gcm_message_status gcm_response_code crash_details anr_details
+#
+#    ('device' dimension をセットすると、返却されるデータがとても大きくなります!!) 
+#
+#   metrics オプションに利用可能なパラメータ:
+#     current_device_installs daily_device_installs daily_device_uninstalls
+#     daily_device_upgrades current_user_installs total_user_installs
+#     daily_user_installs daily_user_uninstalls daily_avg_rating total_avg_rating
+#     gcm_messages gcm_registrations daily_crashes daily_anrs
+
+stats = GooglePlayDevScraper::ApplicationStatistics.fetch(
+  'com.example.helloworld',
+  dimensions: %w(os_version country),
+  metrics: %w(total_user_installs current_device_installs)
+  start_date: Date.new(2013, 12, 5),
+  end_date: Date.new(2013, 12, 6)
+)
+
+# stats は "GooglePlayDevScraper::ApplicationStatistics" クラスの配列です 
+stats[0].date
+# => 2013-12-05
+
+stats[0].dimension
+# => :os_version
+
+stats[0].field_name
+# => current_device_installs
+
+stats[0].entries
+# => {"Android 2.3" => 1234, "Android 2.2" => 321 ....}
+
+# 'select_by' と 'find_by' メソッドを用意しました。条件を指定して探せます。
+
+stats.select_by(date: Date.new(2013, 12, 6), dimension: :os_version)
+# =>
+# [
+#   #<GooglePlayDevScraper::ApplicationStatistics, @date=#<Date: 2013-12-06> .. >,
+#   #<GooglePlayDevScraper::ApplicationStatistics, @date=#<Date: 2013-12-06> .. >,
+#   .. 
+# ]
+
+stats.find_by(date: Date.new(2013, 12, 6), dimension: :os_version)
+# => #<GooglePlayDevScraper::ApplicationStatistics .. >
+# ( 'find_by' method always returns only one object which matches first )
+
 ```
 
 内部動作とか

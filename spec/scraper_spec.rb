@@ -2,38 +2,46 @@
 require 'spec_helper'
 
 describe GooglePlayDevScraper::Scraper do
-  before do
-    @scraper = ScraperMock.new
+  let(:scraper) { GooglePlayDevScraper::Scraper.new }
+  let(:dev_acc) { '1234567890' }
 
-    @dev_acc = "1234567890"
-    @scraper.config.dev_acc = @dev_acc
-  end
-
-  context "Setup" do
+  describe "Setup" do
     it "setup without proxy" do
-      @scraper.setup
-
-      @scraper.agent.proxy_addr.should be_nil
-      @scraper.agent.proxy_port.should be_nil
+      scraper.agent.proxy_addr.should be_nil
+      scraper.agent.proxy_port.should be_nil
     end
 
     it "setup with proxy" do
-      @scraper.config.proxy_host = "proxy.example.com"
-      @scraper.config.proxy_port = 12345
-
-      @scraper.setup
-
-      @scraper.agent.proxy_addr.should == "proxy.example.com"
-      @scraper.agent.proxy_port.should == 12345
+      GooglePlayDevScraper.config(
+        proxy_host: 'proxy.example.com',
+        proxy_port: 12345
+      )
+      scraper.agent.proxy_addr.should == "proxy.example.com"
+      scraper.agent.proxy_port.should == 12345
     end
   end
 
-  context "get sales report" do
+  describe "get sales report" do
+    let(:report_date) { Date.new(2012, 11, 1) }
+    let(:stub_google_play_request) do
+      stub_request(:get, 'https://play.google.com/apps/publish/v2/salesreport/download').with(
+        query: {
+          report_date: "#{report_date.year}_#{report_date.month}",
+          report_type: 'payout_report',
+          dev_acc: dev_acc
+        }
+      )
+    end
+
+    before { stub_google_play_request }
+
     it "normal access" do
-      @scraper.get_sales_report(2012, 11)
-      @scraper.accessed_url.should == "https://play.google.com/apps/publish/v2/salesreport/download?report_date=2012_11&report_type=payout_report&dev_acc=#{@dev_acc}"
+      scraper.config.dev_acc = dev_acc
+      scraper.get_sales_report(report_date.year, report_date.month)
+      stub_google_play_request.should have_been_made.once
     end
   end
-  
+
+  after { GooglePlayDevScraper.reset! }
 end
 

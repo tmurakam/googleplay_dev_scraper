@@ -37,7 +37,7 @@ Configuration
 Create configuration file at ~/.googleplay_dev_scraper,
 or ./.googleplay_dev_scraper in YAML format.
 
-```
+```yaml
 # GooglePlay scraper config file sample (YAML format)
 #
 # Place this content to your ~/.googleplay_dev_scraper or
@@ -103,22 +103,76 @@ API usage
 
 Example:
 
-```
+```ruby
 require 'googleplay_dev_scraper'
 
-scraper = GooglePlayDevScraper::Scraper.new
-
 # set config (Note: config file is not read via API access)
-scraper.config.email = "foo@example.com"
-scraper.config.password = "YOUR_PASSWORD"
-scraper.config.dev_acc = "1234567890"
+GooglePlayDevScraper.config(
+  email: "foo@example.com"
+  password: "YOUR_PASSWORD"
+  dev_acc: "1234567890"
+)
+
+scraper = GooglePlayDevScraper::Scraper.new
 
 # get sales report / estimated sales report
 puts scraper.get_sales_report(2012, 11)
 puts scraper.get_estimated_sales_report(2012, 12)
 
 # get orders
-puts scraper.get_order_list(DateTime.parse("2012-11-01 00:00:00", DateTime.parse("2012-11-30T23:59:59"))
+puts scraper.get_order_list(
+  DateTime.parse("2012-11-01 00:00:00"), DateTime.parse("2012-11-30 23:59:59")
+)
+
+# get application statistics
+#   available dimensions :
+#     overall os_version device country language app_version carrier
+#     gcm_message_status gcm_response_code crash_details anr_details
+#
+#    (use 'device' dimension may returns huge data set. be careful!) 
+#
+#   available metrics :
+#     current_device_installs daily_device_installs daily_device_uninstalls
+#     daily_device_upgrades current_user_installs total_user_installs
+#     daily_user_installs daily_user_uninstalls daily_avg_rating total_avg_rating
+#     gcm_messages gcm_registrations daily_crashes daily_anrs
+
+stats = GooglePlayDevScraper::ApplicationStatistics.fetch(
+  'com.example.helloworld',
+  dimensions: %w(os_version country),
+  metrics: %w(total_user_installs current_device_installs)
+  start_date: Date.new(2013, 12, 5),
+  end_date: Date.new(2013, 12, 6)
+)
+
+# stats is array of "GooglePlayDevScraper::ApplicationStatistics" class
+stats[0].date
+# => 2013-12-05
+
+stats[0].dimension
+# => :os_version
+
+stats[0].field_name
+# => current_device_installs
+
+stats[0].entries
+# => {"Android 2.3" => 1234, "Android 2.2" => 321 ....}
+
+# to find object, 'select_by' and 'find_by' may help you.
+
+stats.select_by(date: Date.new(2013, 12, 6), dimension: :os_version)
+# =>
+# [
+#   #<GooglePlayDevScraper::ApplicationStatistics, @date=#<Date: 2013-12-06> .. >,
+#   #<GooglePlayDevScraper::ApplicationStatistics, @date=#<Date: 2013-12-06> .. >,
+#   .. 
+# ]
+
+stats.find_by(date: Date.new(2013, 12, 6), dimension: :os_version)
+# => #<GooglePlayDevScraper::ApplicationStatistics .. >
+# ( 'find_by' method always returns only one object which matches first )
+
+
 ```
 
 License

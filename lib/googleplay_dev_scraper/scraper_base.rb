@@ -11,30 +11,19 @@ require 'yaml'
 
 module GooglePlayDevScraper
   class ScraperBase
-    attr_accessor :agent
-    attr_accessor :config
+    attr_accessor :agent, :config, :last_response, :last_response_body
+
 
     def initialize
-      @agent = nil
-      @config = ScraperConfig.new
-    end
-
-    def setup
-      #Mechanize.log = Logger.new("mechanize.log")
-      #Mechanize.log.level = Logger::INFO
-
-      unless @agent
-        @agent = Mechanize.new
-      end
-      if @config.proxy_host && @config.proxy_host.length >= 1
-        @agent.set_proxy(@config.proxy_host, @config.proxy_port)
-      end
+      @config = GooglePlayDevScraper.config
+      @agent = GooglePlayDevScraper.agent
     end
 
     def try_get(url)
-      unless @agent
-        setup
-      end
+      @agent.post_connect_hooks << lambda{|agent, uri, response, res_body|
+        @last_response = response
+        @last_response_body = res_body
+      }
 
       # try to get
       @agent.get(url)
