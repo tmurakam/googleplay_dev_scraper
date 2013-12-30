@@ -120,7 +120,9 @@ puts scraper.get_sales_report(2012, 11)
 puts scraper.get_estimated_sales_report(2012, 12)
 
 # get orders
-puts scraper.get_order_list(DateTime.parse("2012-11-01 00:00:00", DateTime.parse("2012-11-30T23:59:59"))
+puts scraper.get_order_list(
+  DateTime.parse("2012-11-01 00:00:00"), DateTime.parse("2012-11-30 23:59:59")
+)
 
 # get application statistics
 #   available dimensions :

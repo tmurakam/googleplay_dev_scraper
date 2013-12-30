@@ -137,7 +137,9 @@ puts scraper.get_sales_report(2012, 11)
 puts scraper.get_estimated_sales_report(2012, 12)
 
 # オーダー一覧取得
-puts scraper.get_order_list(DateTime.parse("2012-11-01"), DateTime.parse("2012-11-30"))
+puts scraper.get_order_list(
+  DateTime.parse("2012-11-01 00:00:00"), DateTime.parse("2012-11-30 23:59:59")
+)
 
 # アプリケーション統計情報取得
 #   dimensions オプションに利用可能なパラメータ:
