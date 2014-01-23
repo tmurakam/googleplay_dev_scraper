@@ -36,6 +36,4 @@ describe GooglePlayDevScraper do
       its(:proxy_port) { should eq proxy_port }
     end
   end
-
-  after { GooglePlayDevScraper.reset! }
 end

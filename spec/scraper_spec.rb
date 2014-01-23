@@ -12,10 +12,10 @@ describe GooglePlayDevScraper::Scraper do
     end
 
     it "setup with proxy" do
-      GooglePlayDevScraper.config(
+      scraper.config.set_options({
         proxy_host: 'proxy.example.com',
         proxy_port: 12345
-      )
+      })
       scraper.agent.proxy_addr.should == "proxy.example.com"
       scraper.agent.proxy_port.should == 12345
     end
@@ -42,6 +42,4 @@ describe GooglePlayDevScraper::Scraper do
     end
   end
 
-  after { GooglePlayDevScraper.reset! }
 end
-

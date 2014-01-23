@@ -68,6 +68,14 @@ module GooglePlayDevScraper
       end
     end
 
+    def set_options(options = {})
+      @email = options[:email] if options[:email]
+      @password = options[:password] if options[:password]
+      @dev_acc = options[:dev_acc] if options[:dev_acc]
+      @proxy_host = options[:proxy_host] if options[:proxy_host]
+      @proxy_port = options[:proxy_port] if options[:proxy_port]
+    end
+
     def override_with(options = {})
       @email = options[:email]
       @password = options[:password]

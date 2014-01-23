@@ -89,5 +89,5 @@ describe GooglePlayDevScraper::ApplicationStatistics do
     end
   end
 
-  after { GooglePlayDevScraper.reset! }
+  #after { GooglePlayDevScraper.reset! }
 end
