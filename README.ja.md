@@ -126,11 +126,11 @@ require 'googleplay_dev_scraper'
 scraper = GooglePlayDevScraper::Scraper.new
 
 # 設定 (config ファイルはモジュールを用いた場合には読み込まれません)
-GooglePlayDevScraper.config(
+scraper.config.set_options({
   email: "foo@example.com"
   password: "YOUR_PASSWORD"
   dev_acc: "1234567890"
-)
+})
 
 # 売上レポート取得
 puts scraper.get_sales_report(2012, 11)

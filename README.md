@@ -106,14 +106,14 @@ Example:
 ```ruby
 require 'googleplay_dev_scraper'
 
+scraper = GooglePlayDevScraper::Scraper.new
+
 # set config (Note: config file is not read via API access)
-GooglePlayDevScraper.config(
+scraper.config.set_options({
   email: "foo@example.com"
   password: "YOUR_PASSWORD"
   dev_acc: "1234567890"
-)
-
-scraper = GooglePlayDevScraper::Scraper.new
+})
 
 # get sales report / estimated sales report
 puts scraper.get_sales_report(2012, 11)
